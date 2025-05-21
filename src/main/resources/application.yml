@@ -13,10 +13,5 @@ spring:
       prefix: "/WEB-INF/views/"
       suffix: ".jsp"
 
-  servlet:
-    multipart:
-      enabled: true
-      location: "${java.io.tmpdir}"
-
 server:
   port: '8080'
