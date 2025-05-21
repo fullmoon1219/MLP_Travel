@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: 'Travel'
+
+  datasource:
+    driver-class-name: 'com.mysql.cj.jdbc.Driver'
+    url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/travel_db'
+    username: 'traveluser'
+    password: '!123456'
+
+  mvc:
+    view:
+      prefix: "/WEB-INF/views/"
+      suffix: ".jsp"
+
+  servlet:
+    multipart:
+      enabled: true
+      location: "${java.io.tmpdir}"
+
+server:
+  port: '8080'
