@@ -10,9 +10,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class KakaoMapService {
@@ -26,15 +23,15 @@ public class KakaoMapService {
         this.restTemplate = restTemplate;
     }
 
-    public PlaceDTO searchByKeyword(String keyword) {
-        if (keyword == null || keyword.trim().isEmpty()) {
-            System.out.println("❌ keyword 파라미터가 비어 있습니다.");
+    public PlaceDTO getPlaceDetail(String placeName) {
+        if (placeName == null || placeName.trim().isEmpty()) {
+            System.out.println("❌ placeName 파라미터가 비어 있습니다.");
             return null;
         }
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://dapi.kakao.com/v2/local/search/keyword.json")
-                .queryParam("query", keyword)
+                .queryParam("query", placeName)
                 .encode()
                 .build()
                 .toUri();
@@ -50,12 +47,12 @@ public class KakaoMapService {
 
             if (!documents.isEmpty()) {
                 JSONObject place = documents.getJSONObject(0);
-                PlaceDTO result = new PlaceDTO();
-                result.setPlaceName(place.getString("place_name"));
-                result.setAddressName(place.getString("address_name"));
-                result.setLat(place.getDouble("y"));
-                result.setLng(place.getDouble("x"));
-                return result;
+                PlaceDTO dto = new PlaceDTO();
+                dto.setPlaceName(place.getString("place_name"));
+                dto.setAddressName(place.getString("address_name"));
+                dto.setLat(place.getDouble("y"));
+                dto.setLng(place.getDouble("x"));
+                return dto;
             }
         } catch (Exception e) {
             System.out.println("❌ 예외 발생: " + e.getMessage());
@@ -63,6 +60,4 @@ public class KakaoMapService {
 
         return null;
     }
-
-
 }
