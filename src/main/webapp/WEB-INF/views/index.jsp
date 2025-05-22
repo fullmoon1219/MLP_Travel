@@ -11,6 +11,6 @@
 </head>
 
 <body>
-    home.jsp
+    index.jsp
 </body>
 </html>
