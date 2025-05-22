@@ -1,6 +1,6 @@
 package org.example.travel.service;
 
-import org.example.travel.dto.PlaceDTO;
+import org.example.travel.dto.KakaoMapDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,7 @@ import java.net.URI;
 @Service
 public class KakaoMapService {
 
-    @Value("${kakao.api-key}")
+    @Value("${api-key.kakao}")
     private String kakaoApiKey;
 
     private final RestTemplate restTemplate;
@@ -23,7 +23,7 @@ public class KakaoMapService {
         this.restTemplate = restTemplate;
     }
 
-    public PlaceDTO getPlaceDetail(String placeName) {
+    public KakaoMapDTO getPlaceDetail(String placeName) {
         if (placeName == null || placeName.trim().isEmpty()) {
             System.out.println("❌ placeName 파라미터가 비어 있습니다.");
             return null;
@@ -47,7 +47,7 @@ public class KakaoMapService {
 
             if (!documents.isEmpty()) {
                 JSONObject place = documents.getJSONObject(0);
-                PlaceDTO dto = new PlaceDTO();
+                KakaoMapDTO dto = new KakaoMapDTO();
                 dto.setPlaceName(place.getString("place_name"));
                 dto.setAddressName(place.getString("address_name"));
                 dto.setLat(place.getDouble("y"));

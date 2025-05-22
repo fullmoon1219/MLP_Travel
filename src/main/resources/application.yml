@@ -1,20 +1,22 @@
 spring:
   application:
-    name: Travel
+    name: "Travel"
 
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://fullmoon1219.iptime.org:3306/travel_db
-    username: traveluser
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://fullmoon1219.iptime.org:3306/travel_db"
+    username: "traveluser"
     password: "!123456"
 
   mvc:
     view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
+      prefix: "/WEB-INF/views/"
+      suffix: ".jsp"
 
-kakao:
-  api-key: "KakaoAK ff9c4ad26bc2db92ab2d0aa791d666f2"
+api-key:
+  kakao: "KakaoAK ff9c4ad26bc2db92ab2d0aa791d666f2"
+  tourist: "7MHo3AEgYnMAKhbJdSBI2dtOjDUyB3UcsQFyA6KAUnw%2BaSVs57dY6OiQIAMuWRY4kLhrkfMxkVzVpOD%2FVnsUkg%3D%3D"
+
 
 server:
   port: 8080

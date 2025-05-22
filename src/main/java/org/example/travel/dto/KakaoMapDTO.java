@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PlaceDTO {
+public class KakaoMapDTO {
     private String placeName;
     private String addressName;
     private double lat;

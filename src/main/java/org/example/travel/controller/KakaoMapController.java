@@ -1,6 +1,6 @@
 package org.example.travel.controller;
 
-import org.example.travel.dto.PlaceDTO;
+import org.example.travel.dto.KakaoMapDTO;
 import org.example.travel.service.KakaoMapService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +19,14 @@ public class KakaoMapController {
 
     @GetMapping("/{placeName}")
     public String getPlaceDetail(@PathVariable String placeName, Model model) {
-        PlaceDTO dto = kakaoMapService.getPlaceDetail(placeName);
+        KakaoMapDTO dto = kakaoMapService.getPlaceDetail(placeName);
         model.addAttribute("place", dto);
         return "places/detail";
     }
 
     @GetMapping("json")
     @ResponseBody
-    public PlaceDTO getPlacesJson(@RequestParam String placeName) {
+    public KakaoMapDTO getPlacesJson(@RequestParam String placeName) {
         return kakaoMapService.getPlaceDetail(placeName);
     }
 }
