@@ -1,0 +1,91 @@
+/* 페이징 디자인 */
+.paginate_regular div {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+/*타이틀 <h1> 지역별 목록보기 디자인*/
+.title h1 {
+
+}
+
+/*타이틀 전체박스 디자인*/
+.title {
+    position: sticky;
+    top: 100px; /* 화면 최상단에 고정 */
+    z-index: 10;
+    width: 100%;
+    height: 220px;
+    background-color: skyblue;
+    padding-top: 40px;
+    text-align: center;
+    margin-bottom: 40px; /* 위쪽 margin은 제거 (sticky에 영향 줌) */
+    font-size: 30px;
+    color: #333;
+}
+
+.card-container {
+    padding: 200px 90px 90px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 160px 90px 90px;
+    z-index: 300;
+}
+
+.card {
+    border: none;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    background-color: white;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+.ui-button {
+    margin-top: 10px;
+}
+
+.ui-button button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 127, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.ui-button button:hover {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    box-shadow: 0 6px 12px rgba(0, 127, 255, 0.5);
+    transform: translateY(-3px);
+}
+
+.ui-button button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(0, 127, 255, 0.2);
+}

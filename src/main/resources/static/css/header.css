@@ -1,0 +1,33 @@
+/* 공통 헤더 스타일 */
+.navigation-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.navigation-bar h1 {
+    color: #ff8f00;
+    margin: 0;
+    font-size: 28px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 20px;
+    margin-right: 40px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+    font-size: 18px;
+}

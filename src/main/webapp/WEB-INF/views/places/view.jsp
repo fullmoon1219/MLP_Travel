@@ -1,7 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+
+<%@ page import="org.example.travel.dto.detail.DetailItemDTO" %>
+<%@ page import="org.example.travel.dto.nearby.NearByItemDTO" %>
+<%@ page import="java.util.List" %>
+
+<%
+    DetailItemDTO detailDTO = (DetailItemDTO) request.getAttribute("detail");
+    String contentId = (String) request.getAttribute("contentId");
+    String pageNo = (String) request.getAttribute("page");
+
+    List<NearByItemDTO> nearbyTourist = (List<NearByItemDTO>) request.getAttribute("nearbyTourist");
+    List<NearByItemDTO> nearbyFood = (List<NearByItemDTO>) request.getAttribute("nearbyFood");
+    List<NearByItemDTO> nearbyAccom = (List<NearByItemDTO>) request.getAttribute("nearbyAccom");
+%>
+
 <html>
 <head>
-    <title>${place.placeName} 상세정보</title>
+    <title><%=detailDTO.getTitle()%> 상세정보</title>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=09e36935031673a834fba88fed46cd2d"></script>
@@ -11,8 +26,8 @@
     <script>
         $(document).ready(function () {
             // 지도
-            var lat = ${place.lat};
-            var lng = ${place.lng};
+            var lat = <%=detailDTO.getMapy()%>;
+            var lng = <%=detailDTO.getMapx()%>;
             var map = new kakao.maps.Map(document.getElementById('map'), {
                 center: new kakao.maps.LatLng(lat, lng),
                 level: 3
@@ -170,16 +185,15 @@
 <!-- ✅ 상세보기 전체 -->
 <div class="container">
     <div class="page-header">
-        <h1 class="page-title">${place.placeName}</h1>
+        <h1 class="page-title"><%=detailDTO.getTitle()%></h1>
     </div>
 
     <!-- 🔹 이미지 + 정보 -->
     <div class="main-content">
         <div>
             <div class="slider-wrapper">
-                <img class="slider-image active" src="/image/sample.png" alt="이미지1">
-                <img class="slider-image" src="/image/sample2.jpg" alt="이미지2">
-                <img class="slider-image" src="/image/sample3.jpg" alt="이미지3">
+                <img class="slider-image active" src="<%=detailDTO.getFirstimage()%>" alt="이미지1">
+                <img class="slider-image" src="<%=detailDTO.getFirstimage2()%>" alt="이미지2">
 
                 <button class="slider-arrow left">&lt;</button>
                 <button class="slider-arrow right">&gt;</button>
@@ -187,17 +201,17 @@
                 <div class="slider-dots">
                     <span class="slider-dot active"></span>
                     <span class="slider-dot"></span>
-                    <span class="slider-dot"></span>
                 </div>
             </div>
         </div>
         <div class="info-box">
             <h3>여행지 정보</h3>
-            <p><strong>지역:</strong> <span class="tag" onclick="location.href='/regionlist'">#서울</span></p>
-            <p><strong>분류:</strong> 관광지</p>
-            <p><strong>상세 분류:</strong> 관광지</p>
-            <p><strong>주소:</strong> 서울 종로구 세종로 1-1</p>
-            <p><strong>문의 및 안내:</strong> 02-120</p>
+            <!-- 지역코드 -> 지역명 변환 코드 필요 -->
+            <p><strong>지역:</strong> <span class="tag" onclick="location.href='/regionlist'"><%="(코드수정)"%></span></p>
+            <p><strong>분류:</strong> <%=detailDTO.getCat1()%></p>
+            <p><strong>상세 분류:</strong> <%=detailDTO.getCat3()%></p>
+            <p><strong>주소:</strong> <%=detailDTO.getAddr1() + " " + detailDTO.getAddr2()%></p>
+            <p><strong>문의 및 안내:</strong> <%=detailDTO.getTel()%></p>
         </div>
     </div>
 
@@ -205,8 +219,7 @@
     <div class="description">
         <h3>상세정보</h3>
         <p>
-            서울 시청은 서울특별시의 중심 행정 기관으로, 시민과 소통하는 열린 공간입니다.<br>
-            덕수궁, 청계천, 광화문 등 다양한 명소가 밀집해 있어 관광과 문화 체험이 용이합니다.
+            <%=detailDTO.getOverview()%>
         </p>
     </div>
 
@@ -221,42 +234,26 @@
             <button class="recommend-arrow left">&lt;</button>
 
             <div class="recommend-cards-container">
-                <div class="card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample.png');">
-                        <div class="overlay">관광지 상세보기</div>
-                    </div>
-                    <div class="label">덕수궁1</div>
-                </div>
-                <div class="card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample.png');">
-                        <div class="overlay">관광지 상세보기</div>
-                    </div>
-                    <div class="label">덕수궁2</div>
-                </div>
-                <div class="card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample.png');">
-                        <div class="overlay">관광지 상세보기</div>
-                    </div>
-                    <div class="label">덕수궁3</div>
-                </div>
-                <div class="card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample.png');">
-                        <div class="overlay">관광지 상세보기</div>
-                    </div>
-                    <div class="label">덕수궁4</div>
-                </div>
-                <div class="card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample.png');">
-                        <div class="overlay">관광지 상세보기</div>
-                    </div>
-                    <div class="label">덕수궁5</div>
-                </div>
-                <div class="card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample.png');">
-                        <div class="overlay">관광지 상세보기</div>
-                    </div>
-                    <div class="label">덕수궁6</div>
-                </div>
+
+                <%
+                    for (NearByItemDTO to : nearbyTourist) {
+                        String url = "/view?page=" + pageNo + "&contentId=" + to.getContentid();
+                        String imageUrl = to.getFirstimage();
+                        if (imageUrl == null || imageUrl.trim().isEmpty()) {
+                            imageUrl = "/image/sample.png";
+                        }
+
+                        out.println("<div class='card' onclick=\"location.href='" + url + "'\">");
+                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl + "');\">");
+                        out.println("<div class='overlay'>관광지 상세보기</div>");
+                        out.println("</div>");
+                        out.println("<div class='label'>" + to.getTitle() + "</div>");
+                        out.println("</div>");
+
+                    }
+
+                %>
+
             </div>
 
             <button class="recommend-arrow right">&gt;</button>
@@ -277,40 +274,23 @@
 
             <div class="accom-cards-container">
 
-                <div class="card accom-card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample4.jpg');">
-                        <div class="overlay">숙소 상세보기</div>
-                    </div>
-                    <div class="label">호텔1</div>
-                </div>
+                <%
+                    for (NearByItemDTO to : nearbyAccom) {
+                        String url = "/view?page=" + pageNo + "&contentId=" + to.getContentid();
+                        String imageUrl = to.getFirstimage();
+                        if (imageUrl == null || imageUrl.trim().isEmpty()) {
+                            imageUrl = "/image/sample.png";
+                        }
 
-                <div class="card accom-card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample4.jpg');">
-                        <div class="overlay">숙소 상세보기</div>
-                    </div>
-                    <div class="label">호텔2</div>
-                </div>
+                        out.println("<div class='card accom-card' onclick=\"location.href='" + url + "'\">");
+                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl + "');\">");
+                        out.println("<div class='overlay'>숙소 상세보기</div>");
+                        out.println("</div>");
+                        out.println("<div class='label'>" + to.getTitle() + "</div>");
+                        out.println("</div>");
+                    }
 
-                <div class="card accom-card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample4.jpg');">
-                        <div class="overlay">숙소 상세보기</div>
-                    </div>
-                    <div class="label">호텔3</div>
-                </div>
-
-                <div class="card accom-card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample4.jpg');">
-                        <div class="overlay">숙소 상세보기</div>
-                    </div>
-                    <div class="label">호텔4</div>
-                </div>
-
-                <div class="card accom-card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample4.jpg');">
-                        <div class="overlay">숙소 상세보기</div>
-                    </div>
-                    <div class="label">호텔5</div>
-                </div>
+                %>
 
             </div>
 
@@ -329,33 +309,23 @@
 
             <div class="food-cards-container">
 
-                <div class="card food-card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample5.jpg');">
-                        <div class="overlay">음식점 상세보기</div>
-                    </div>
-                    <div class="label">맛집1</div>
-                </div>
+                <%
+                    for (NearByItemDTO to : nearbyFood) {
+                        String url = "/view?page=" + pageNo + "&contentId=" + to.getContentid();
+                        String imageUrl = to.getFirstimage();
+                        if (imageUrl == null || imageUrl.trim().isEmpty()) {
+                            imageUrl = "/image/sample.png";
+                        }
 
-                <div class="card food-card"hidden="" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample5.jpg');">
-                        <div class="overlay">음식점 상세보기</div>
-                    </div>
-                    <div class="label">맛집2</div>
-                </div>
+                        out.println("<div class='card food-card' onclick=\"location.href='" + url + "'\">");
+                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl + "');\">");
+                        out.println("<div class='overlay'>음식점 상세보기</div>");
+                        out.println("</div>");
+                        out.println("<div class='label'>" + to.getTitle() + "</div>");
+                        out.println("</div>");
+                    }
 
-                <div class="card food-card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample5.jpg');">
-                        <div class="overlay">음식점 상세보기</div>
-                    </div>
-                    <div class="label">맛집3</div>
-                </div>
-
-                <div class="card food-card" onclick="location.href='/view'">
-                    <div class="card-image" style="background-image: url('/image/sample5.jpg');">
-                        <div class="overlay">음식점 상세보기</div>
-                    </div>
-                    <div class="label">맛집4</div>
-                </div>
+                %>
 
             </div>
 
