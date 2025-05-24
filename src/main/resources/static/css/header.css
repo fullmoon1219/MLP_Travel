@@ -1,0 +1,77 @@
+/* 전역 초기화 */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* ✅ 가로 스크롤 제거 */
+    font-family: 'Inter', sans-serif;
+}
+
+/* 헤더 전체 */
+.navigation-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+
+    background: linear-gradient(90deg, #ffffff, #f5f5f5);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #ddd;
+}
+
+/* 로고 링크 */
+.navigation-bar h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+.logo-link {
+    text-decoration: none;
+    color: #ff8f00;
+    transition: opacity 0.2s ease;
+}
+
+.logo-link:hover {
+    opacity: 0.8;
+}
+
+/* 메뉴 영역 */
+.nav-menu {
+    display: flex;
+    gap: 24px;
+    margin-right: 20px;
+    flex-wrap: wrap; /* ✅ 작은 화면에서 줄바꿈 허용 */
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #444;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap; /* ✅ 줄바꿈 방지 */
+}
+
+.nav-menu a:hover {
+    background-color: #ff8f00;
+    color: white;
+}
+
+/* 활성 링크용 클래스 */
+.nav-menu a.active {
+    background-color: #ff8f00;
+    color: white;
+}

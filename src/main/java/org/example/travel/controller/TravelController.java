@@ -1,6 +1,6 @@
 package org.example.travel.controller;
 
-import org.example.travel.dto.PageListDTO;
+import org.example.travel.constant.AreaCode;
 import org.example.travel.dto.detail.DetailItemDTO;
 import org.example.travel.dto.detail.DetailResponseDTO;
 import org.example.travel.dto.district.DistrictItemDTO;
@@ -9,19 +9,20 @@ import org.example.travel.dto.food.FoodItemDTO;
 import org.example.travel.dto.food.FoodResponseDTO;
 import org.example.travel.dto.nearby.NearByItemDTO;
 import org.example.travel.dto.nearby.NearByResponseDTO;
-import org.example.travel.dto.tourist.TouristItemDTO;
-import org.example.travel.dto.tourist.TouristResponseDTO;
+import org.example.travel.dto.search.SearchItemDTO;
+import org.example.travel.dto.search.SearchResponseDTO;
 import org.example.travel.service.TouristService;
-import org.example.travel.service.TravelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,63 +30,206 @@ import java.util.Map;
 @Controller
 public class TravelController {
 
-    private final TravelService travelService;
     private final TouristService touristService;
 
     @Autowired
-    public TravelController(TravelService travelService, TouristService touristService) {
-        this.travelService = travelService;
+    public TravelController(TouristService touristService) {
         this.touristService = touristService;
     }
 
     @RequestMapping("/")
-    public ModelAndView index() {
-        ModelAndView modelAndView = new ModelAndView("index");
+    public String index(Model model) {
 
-        return modelAndView;
+        Map<String, String> params = Map.of(
+                "pageNo", "1",
+                "numOfRows", "100",
+                "MobileOS", "WEB",
+                "MobileApp", "AppTest",
+                "arrange", "Q",
+                "contentTypeId", "12"
+        );
+
+        DistrictResponseDTO dto = touristService.fetchData(
+                "https://apis.data.go.kr/B551011/KorService2/areaBasedList2",
+                params,
+                DistrictResponseDTO.class
+        );
+
+        List<DistrictItemDTO> list = dto.getResponse().getBody().getItems().getItem();
+
+        Collections.shuffle(list);
+
+        int limit = Math.min(9, list.size());
+        List<DistrictItemDTO> randomList = list.subList(0, limit);
+
+        model.addAttribute("allLists", randomList);
+
+        return "index";
     }
 
-    @RequestMapping("/list")
-    public String allList(@RequestParam(defaultValue = "1") int page, Model model) {
-        PageListDTO listDTO = travelService.allTravels(page);
-        model.addAttribute("listDTO", listDTO);
+    @RequestMapping("search")
+    public String search(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            Model model
+    ) {
+        String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
 
-        return "search/allList";
+        Map<String, String> params = Map.of(
+                "pageNo", String.valueOf(page),
+                "numOfRows", "6",
+                "MobileOS", "WEB",
+                "MobileApp", "AppTest",
+                "arrange", "Q",
+                "keyword", encodedKeyword,
+                "areaCode", "39",
+                "_type", "json"
+        );
+
+        SearchResponseDTO dto = touristService.fetchData(
+                "https://apis.data.go.kr/B551011/KorService2/searchKeyword2",
+                params,
+                SearchResponseDTO.class
+        );
+
+        if (dto == null || dto.getResponse() == null || dto.getResponse().getBody() == null ||
+                dto.getResponse().getBody().getItems() == null || dto.getResponse().getBody().getItems().getItem() == null) {
+
+            model.addAttribute("searchLists", Collections.emptyList());
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("page", page);
+            model.addAttribute("totalCount", 0);
+            model.addAttribute("totalPage", 1);
+
+        } else {
+            List<SearchItemDTO> list = dto.getResponse().getBody().getItems().getItem();
+            int totalCount = dto.getResponse().getBody().getTotalCount();
+
+            model.addAttribute("searchLists", list);
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("page", page);
+            model.addAttribute("totalCount", totalCount);
+
+            int totalPage = (int) Math.ceil((double) totalCount / 6.0);
+            model.addAttribute("totalPage", totalPage);
+        }
+
+        Map<String, String> params2 = Map.of(
+                "pageNo", "1",
+                "numOfRows", "100",
+                "MobileOS", "WEB",
+                "MobileApp", "AppTest",
+                "arrange", "Q",
+                "contentTypeId", "12",
+                "_type", "json"
+        );
+
+        DistrictResponseDTO random = touristService.fetchData(
+                "https://apis.data.go.kr/B551011/KorService2/areaBasedList2",
+                params2,
+                DistrictResponseDTO.class
+        );
+
+        if (random != null && random.getResponse() != null &&
+                random.getResponse().getBody() != null &&
+                random.getResponse().getBody().getItems() != null) {
+
+            List<DistrictItemDTO> list2 = random.getResponse().getBody().getItems().getItem();
+            Collections.shuffle(list2);
+
+            int limit = Math.min(3, list2.size());
+            List<DistrictItemDTO> randomList = list2.subList(0, limit);
+
+            model.addAttribute("randomLists", randomList);
+        } else {
+            model.addAttribute("randomLists", Collections.emptyList());
+        }
+
+        return "search/search";
+    }
+
+
+
+    @RequestMapping("/list")
+    public String allList(
+            @RequestParam(defaultValue = "1") String page,
+            Model model) {
+
+        Map<String, String> params = Map.of(
+                "pageNo", page,
+                "numOfRows", "12",
+                "MobileOS", "WEB",
+                "MobileApp", "AppTest",
+                "arrange", "Q",
+                "contentTypeId", "12"
+        );
+
+        DistrictResponseDTO dto = touristService.fetchData(
+                "https://apis.data.go.kr/B551011/KorService2/areaBasedList2",
+                params,
+                DistrictResponseDTO.class
+        );
+
+        List<DistrictItemDTO> list = dto.getResponse().getBody().getItems().getItem();
+
+        model.addAttribute("allLists", list);
+        model.addAttribute("page", page);
+
+        int totalCount = dto.getResponse().getBody().getTotalCount();
+
+        model.addAttribute("totalCount", totalCount);
+
+        int totalPage = (int) Math.ceil( (double)totalCount / 12.0 );
+        model.addAttribute("totalPage", totalPage);
+
+        return "list/allList";
     }
 
 
     @GetMapping("/district")
     public String viewList(
-        @RequestParam(defaultValue = "1") String areaCode,
-        @RequestParam(defaultValue = "1") String page,
-        Model model) {
+            @RequestParam(required = false) String areaCode,
+            @RequestParam(defaultValue = "1") String page,
+            Model model) {
 
-            Map<String, String> params = Map.of(
-                    "areaCode", areaCode,
-                    "pageNo", page,
-                    "numOfRows", "30",
-                    "MobileOS", "WEB",
-                    "MobileApp", "AppTest",
-                    "arrange", "Q",
-                    "contentTypeId", "12"
-            );
+        Map<String, String> params = new HashMap<>();
+        params.put("pageNo", page);
+        params.put("numOfRows", "12");
+        params.put("MobileOS", "WEB");
+        params.put("MobileApp", "AppTest");
+        params.put("arrange", "C");
+        params.put("contentTypeId", "12");
 
-            DistrictResponseDTO dto = touristService.fetchData(
-                    "https://apis.data.go.kr/B551011/KorService2/areaBasedList2",
-                    params,
-                    DistrictResponseDTO.class
-            );
+        if (areaCode != null && !areaCode.isBlank()) {
+            params.put("areaCode", areaCode);
+        }
 
-            List<DistrictItemDTO> list = dto.getResponse().getBody().getItems().getItem();
+        DistrictResponseDTO dto = touristService.fetchData(
+                "https://apis.data.go.kr/B551011/KorService2/areaBasedList2",
+                params,
+                DistrictResponseDTO.class
+        );
 
-            model.addAttribute("districts", list);
-            model.addAttribute("areaCode", areaCode);
+        List<DistrictItemDTO> list = dto.getResponse().getBody().getItems().getItem();
 
-        return "search/districtList";
+        model.addAttribute("districts", list);
+        model.addAttribute("page", page);
+        model.addAttribute("areaCode", areaCode);
+        model.addAttribute("region", AreaCode.AREA_CODE_MAP);
+
+        int totalCount = dto.getResponse().getBody().getTotalCount();
+
+        model.addAttribute("totalCount", totalCount);
+
+        int totalPage = (int) Math.ceil( (double)totalCount / 12.0 );
+        model.addAttribute("totalPage", totalPage);
+
+        return "list/districtList";
     }
 
     @GetMapping("/view")
-    public String viewDetail(@RequestParam("contentId") String contentId, Model model) {
+    public String viewDetail(@RequestParam String page,
+                             @RequestParam("contentId") String contentId, Model model) {
 
         // 1. 상세 정보 조회
         Map<String, String> detailParams = Map.of(
@@ -112,14 +256,15 @@ public class TravelController {
         }
 
         model.addAttribute("detail", detail);
+        model.addAttribute("page", page);
         model.addAttribute("contentId", contentId);
 
         // 2. 위도/경도 기반 관광지 및 음식점 조회
         if (detail != null && detail.getMapx() != null && detail.getMapy() != null) {
 
-            // 관광지(12), 음식점(39)
-            int[] contentTypeIds = {12, 39};
-            String[] modelKeys = {"nearbyTourist", "nearbyFood"};
+            // 관광지(12), 음식점(39), 숙박시설(32)
+            int[] contentTypeIds = {12, 39, 32};
+            String[] modelKeys = {"nearbyTourist", "nearbyFood", "nearbyAccom"};
 
             for (int i = 0; i < contentTypeIds.length; i++) {
                 Map<String, String> params = Map.of(
@@ -158,22 +303,23 @@ public class TravelController {
     }
 
 
-
     @GetMapping("/food")
     public String viewFoodList(
-            @RequestParam(defaultValue = "1") String areaCode,
+            @RequestParam(required = false) String areaCode,
             @RequestParam(defaultValue = "1") String page,
             Model model) {
 
-        Map<String, String> params = Map.of(
-                "areaCode", areaCode,
-                "pageNo", page,
-                "numOfRows", "10",
-                "MobileOS", "WEB",
-                "MobileApp", "AppTest",
-                "arrange", "C",
-                "contentTypeId", "39"
-        );
+        Map<String, String> params = new HashMap<>();
+        params.put("pageNo", page);
+        params.put("numOfRows", "12");
+        params.put("MobileOS", "WEB");
+        params.put("MobileApp", "AppTest");
+        params.put("arrange", "C");
+        params.put("contentTypeId", "39");
+
+        if (areaCode != null && !areaCode.isBlank()) {
+            params.put("areaCode", areaCode);
+        }
 
         FoodResponseDTO dto = touristService.fetchData(
                 "https://apis.data.go.kr/B551011/KorService2/areaBasedList2",
@@ -184,37 +330,58 @@ public class TravelController {
         List<FoodItemDTO> list = dto.getResponse().getBody().getItems().getItem();
 
         model.addAttribute("foods", list);
+        model.addAttribute("page", page);
         model.addAttribute("areaCode", areaCode);
+        model.addAttribute("region", AreaCode.AREA_CODE_MAP);
 
-        return "search/food";
+        int totalCount = dto.getResponse().getBody().getTotalCount();
+
+        model.addAttribute("totalCount", totalCount);
+
+        int totalPage = (int) Math.ceil( (double)totalCount / 12.0 );
+        model.addAttribute("totalPage", totalPage);
+
+        return "list/foodList";
     }
 
+    @GetMapping("/accom")
+    public String viewAccom(
+            @RequestParam(required = false) String areaCode,
+            @RequestParam(defaultValue = "1") String page,
+            Model model) {
 
-    @GetMapping("/example")
-    public String viewExample(Model model, @RequestParam(defaultValue = "1") String page) {
-        Map<String, String> params = Map.of(
-                "pageNo", page,
-                "numOfRows", "30",
-                "MobileOS", "WEB",
-                "MobileApp", "AppTest",
-                "baseYm", "202503",
-                "areaCd", "11",
-                "signguCd", "11530"
-        );
+        Map<String, String> params = new HashMap<>();
+        params.put("pageNo", page);
+        params.put("numOfRows", "12");
+        params.put("MobileOS", "WEB");
+        params.put("MobileApp", "AppTest");
+        params.put("arrange", "C");
+        params.put("contentTypeId", "32");
 
-        TouristResponseDTO dto = touristService.fetchData(
-                "https://apis.data.go.kr/B551011/TarRlteTarService/areaBasedList",
+        if (areaCode != null && !areaCode.isBlank()) {
+            params.put("areaCode", areaCode);
+        }
+
+        DistrictResponseDTO dto = touristService.fetchData(
+                "https://apis.data.go.kr/B551011/KorService2/areaBasedList2",
                 params,
-                TouristResponseDTO.class
+                DistrictResponseDTO.class
         );
 
-        List<TouristItemDTO> list = dto.getResponse().getBody().getItems().getItem();
+        List<DistrictItemDTO> list = dto.getResponse().getBody().getItems().getItem();
 
-        model.addAttribute("tourists", list);
+        model.addAttribute("accoms", list);
+        model.addAttribute("page", page);
+        model.addAttribute("areaCode", areaCode);
+        model.addAttribute("region", AreaCode.AREA_CODE_MAP);
 
-        return "places/list";
+        int totalCount = dto.getResponse().getBody().getTotalCount();
+
+        model.addAttribute("totalCount", totalCount);
+
+        int totalPage = (int) Math.ceil( (double)totalCount / 12.0 );
+        model.addAttribute("totalPage", totalPage);
+
+        return "list/accomList";
     }
-
-
-
 }
