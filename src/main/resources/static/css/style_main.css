@@ -147,7 +147,7 @@ html, body {
     position: absolute; /* background-slider 안에서 위치 고정 */
     bottom: 30px; /* 아래 여백 */
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 0);
     color: white;
     text-align: center;
     font-size: 18px;
@@ -169,9 +169,9 @@ html, body {
 }
 
 @keyframes float {
-    0%   { transform: translateY(0); }
-    50%  { transform: translateY(10px); }
-    100% { transform: translateY(0); }
+    0%   { transform: translate(-50%, 0); }
+    50%  { transform: translate(-50%, 10px); }
+    100% { transform: translate(-50%, 0); }
 }
 
 /* 추천 관광지 */
