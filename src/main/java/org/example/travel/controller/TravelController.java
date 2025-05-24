@@ -258,6 +258,7 @@ public class TravelController {
         model.addAttribute("detail", detail);
         model.addAttribute("page", page);
         model.addAttribute("contentId", contentId);
+        model.addAttribute("region", AreaCode.AREA_CODE_MAP);
 
         // 2. 위도/경도 기반 관광지 및 음식점 조회
         if (detail != null && detail.getMapx() != null && detail.getMapy() != null) {
