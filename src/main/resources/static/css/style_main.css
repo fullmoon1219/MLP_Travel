@@ -14,6 +14,17 @@ html, body {
     scroll-snap-align: start;
 }
 
+.search-wrapper-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: 100%;
+}
+
+
 /* 기본 설정 */
 html, body {
     margin: 0;
@@ -33,6 +44,10 @@ html, body {
 
 /* 배경 슬라이더 */
 .background-slider {
+    background-image: url("/images/background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     position: relative; /* 기준 컨테이너 설정 */
     height: 100vh; /* 화면 전체 높이 */
     background-color: #87cefa; /* 하늘색 배경 */
@@ -69,72 +84,62 @@ html, body {
 
 /* 검색 폼 */
 .search-form {
-    max-width: 700px;
-    background-color: #2a2a3d;
-    border-radius: 25px;
-    padding: 20px 25px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
     margin-top: 30px;
+}
+
+.search-form-div {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* label, input, button */
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 30px;
+    padding: 8px 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    gap: 10px;
+}
+
+.search-form-div label {
+    color: #000;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.search-form-div input {
+    border: none;
+    padding: 12px 16px;
+    font-size: 15px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    width: 100%;
+    outline: none;
+}
+
+.search-form-div button {
+    border: none;
+    background: none;
+    color: #4ca8ff;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 10px;
 }
 
 .search-form select,
 .search-form input {
-    background-color: #2a2a3d;
+    background-color: #ffffff;
     border: none;
-    color: white;
-    font-size: 20px;
+    color: #6c6c6c;
+    font-size: 15px;
     padding: 16px;
     border-radius: 12px;
-}
-
-.search-form input {
-    flex: 1;
-    margin: 0 15px;
-}
-
-.search-form button {
-    background: none;
-    border: none;
-    color: #4ca8ff;
-    font-weight: bold;
-    font-size: 22px;
-    cursor: pointer;
-    padding: 0 10px;
 }
 
 .search-form select:focus,
 .search-form input:focus {
     outline: none;
-}
-
-/* 지역 선택 셀렉트 박스 */
-.region-select-container {
-    position: relative;
-    width: 180px;
-}
-
-.region-select-container select {
-    width: 100%;
-    background-color: #2a2a3d;
-    border: none;
-    color: white;
-    padding: 16px 12px;
-    font-size: 18px;
-    border-radius: 12px;
-    appearance: none;
-}
-
-.region-select-container::after {
-    content: '▼';
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: #ccc;
-    font-size: 20px;
 }
 
 /* 스크롤 힌트 */

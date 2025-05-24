@@ -1,10 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="../util/header.jsp" %>
 
 <html>
 <head>
     <title>숙소 리스트</title>
 
-    <link rel="stylesheet" href="/css/style_accom.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_district.css">
     <script src="/js/jquery-3.7.1.js"></script>
 
     <script>

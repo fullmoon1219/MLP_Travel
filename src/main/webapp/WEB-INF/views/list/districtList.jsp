@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
-<%@ page import="org.example.travel.vo.TravelVO" %>
 <%@ page import="org.example.travel.dto.district.DistrictItemDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
@@ -13,9 +12,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title> 여행가자 - 지역별 목록보기 </title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_districtList.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_district.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
-
 </head>
 
 <body>

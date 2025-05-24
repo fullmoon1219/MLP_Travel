@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="org.example.travel.dto.district.DistrictItemDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<jsp:include page="/WEB-INF/views/util/header.jsp" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,19 +10,10 @@
     <title>여행 검색 결과</title>
     <link rel="stylesheet" href="/css/style_search.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
 </head>
 <body>
-
-<!-- ✅ HEADER -->
-<header>
-    <div class="logo">🚗 여행가자</div>
-    <nav class="nav-menu">
-        <button>전체</button>
-        <button>지역</button>
-        <button>미정</button>
-    </nav>
-</header>
-
+<div class="header-spacer"></div>
 <!-- ✅ 검색 영역 -->
 <div class="search-combined">
     <form action="./search" method="get">
@@ -37,7 +29,8 @@
     List<SearchItemDTO> lists = (List<SearchItemDTO>) request.getAttribute("searchLists");
 
     String keyword = (String) request.getAttribute("keyword");
-    String totalCount = (String) request.getAttribute("totalCount");
+
+    int totalCount = (Integer) request.getAttribute("totalCount");
 %>
 <!-- ✅ 검색 결과 -->
 <section class="result-area">
@@ -50,26 +43,74 @@
     <div class="result-grid">
 
         <%
+            if (lists == null || lists.isEmpty()) {
+        %>
+        <div class="no-result">
+            검색 결과가 없습니다.
+        </div>
+        <%
+        } else {
             for (SearchItemDTO item : lists) {
         %>
         <div class="result-item">
             <div class="result-card">
-                <img src="<%= item.getFirstimage() %>" />
+                <%
+                    String image = item.getFirstimage();
+                    if (image == null || image.isBlank()) {
+                        image = request.getContextPath() + "/images/no_image.jpg";
+                    }
+                %>
+                <img src="<%= image %>" alt="이미지"/>
                 <div class="card-overlay">상세 정보 보기</div>
             </div>
             <div class="card-title"><%= item.getTitle() %></div>
         </div>
-
         <%
+                }
             }
         %>
+
     </div>
 
-    <div class="pagination">
-        <span>&lt;</span>
-        <span class="current">1</span>
-        <span>2</span>
-        <span>&gt;</span>
+
+    <div class="paginate_regular">
+        <%
+            int totalPage = (Integer) request.getAttribute("totalPage");
+            int currentPage = (Integer) request.getAttribute("page");
+
+            int startPage = Math.max(1, currentPage - 2);
+            int endPage = Math.min(totalPage, currentPage + 2);
+
+            int blockSize = 5;
+
+            if (currentPage > 1) {
+                out.println("<span><a href='./search?page=1&keyword=" + keyword + "'>&lt;&lt;</a></span>");
+
+                int prev = Math.max(1, currentPage - blockSize);
+                out.println("<span><a href='./search?page=" + prev + "&keyword=" + keyword + "'>&lt;</a></span>");
+            } else {
+                out.println("<span><a href='#'>&lt;&lt;</a></span>");
+                out.println("<span><a href='#'>&lt;</a></span>");
+            }
+
+            for (int i = startPage; i <= endPage; i++) {
+                if (i == currentPage) {
+                    out.println("<span><strong>" + i + "</strong></span>");
+                } else {
+                    out.println("<span><a href='./search?page=" + i + "&keyword=" + keyword +  "'>" + i + "</a></span>");
+                }
+            }
+
+            if (currentPage < totalPage) {
+                int next = Math.min(totalPage, currentPage + blockSize);
+                out.println("<span><a href='./search?page=" + next + "&keyword=" + keyword +  "'>&gt;</a></span>");
+
+                out.println("<span><a href='./search?page=" + totalPage + "&keyword=" + keyword +  "'>&gt;&gt;</a></span>");
+            } else {
+                out.println("<span><a href='#'>&gt;</a></span>");
+                out.println("<span><a href='#'>&gt;&gt;</a></span>");
+            }
+        %>
     </div>
 </section>
 

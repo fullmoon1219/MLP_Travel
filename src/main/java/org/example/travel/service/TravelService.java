@@ -22,8 +22,8 @@ public class TravelService {
         return travels.size();
     }
 
-    public PageListDTO allTravels(int page) {
-        return travelDAO.allTravels(page);
+    public List<TravelVO> allTravels() {
+        return travelDAO.allTravels();
     }
 
     public List<TravelVO> allTravelsByDistrict(String district) {

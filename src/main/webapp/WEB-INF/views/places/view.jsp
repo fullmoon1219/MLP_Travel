@@ -3,6 +3,8 @@
 <%@ page import="org.example.travel.dto.detail.DetailItemDTO" %>
 <%@ page import="org.example.travel.dto.nearby.NearByItemDTO" %>
 <%@ page import="java.util.List" %>
+<jsp:include page="/WEB-INF/views/util/header.jsp" />
+
 
 <%
     DetailItemDTO detailDTO = (DetailItemDTO) request.getAttribute("detail");
@@ -22,6 +24,7 @@
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=09e36935031673a834fba88fed46cd2d"></script>
 
     <link rel="stylesheet" href="/css/style_view.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
 
     <script>
         $(document).ready(function () {
@@ -171,17 +174,6 @@
     </script>
 </head>
 <body>
-
-<!-- ✅ 헤더 -->
-<header>
-    <a onclick="location.href='/main'" class="logo">🚗 여행가자</a>
-    <nav class="nav-menu">
-        <button onclick="location.href='/list'">전체</button>
-        <button onclick="location.href='/regionList'">지역</button>
-        <button onclick="location.href='/accomodationsList'">숙박</button>
-    </nav>
-</header>
-
 <!-- ✅ 상세보기 전체 -->
 <div class="container">
     <div class="page-header">
@@ -192,8 +184,23 @@
     <div class="main-content">
         <div>
             <div class="slider-wrapper">
-                <img class="slider-image active" src="<%=detailDTO.getFirstimage()%>" alt="이미지1">
-                <img class="slider-image" src="<%=detailDTO.getFirstimage2()%>" alt="이미지2">
+                <%
+
+                    String imageUrl = detailDTO.getFirstimage();
+                    if (imageUrl == null || imageUrl.trim().isEmpty()) {
+                        imageUrl = request.getContextPath() + "/images/no_image.jpg";
+                    }
+                %>
+                <img class="slider-image active" src="<%=imageUrl%>" alt="이미지1">
+                <%
+                    String imageUrl2 = detailDTO.getFirstimage2();
+                    if (imageUrl2 != null && !imageUrl2.trim().isEmpty()) {
+                %>
+                <img class="slider-image" src="<%= imageUrl2 %>" alt="이미지2">
+                <%
+                    }
+                %>
+
 
                 <button class="slider-arrow left">&lt;</button>
                 <button class="slider-arrow right">&gt;</button>
@@ -208,10 +215,14 @@
             <h3>여행지 정보</h3>
             <!-- 지역코드 -> 지역명 변환 코드 필요 -->
             <p><strong>지역:</strong> <span class="tag" onclick="location.href='/regionlist'"><%="(코드수정)"%></span></p>
-            <p><strong>분류:</strong> <%=detailDTO.getCat1()%></p>
-            <p><strong>상세 분류:</strong> <%=detailDTO.getCat3()%></p>
-            <p><strong>주소:</strong> <%=detailDTO.getAddr1() + " " + detailDTO.getAddr2()%></p>
-            <p><strong>문의 및 안내:</strong> <%=detailDTO.getTel()%></p>
+            <p><strong>분류:</strong> <%=detailDTO.getCat1()%>
+            </p>
+            <p><strong>상세 분류:</strong> <%=detailDTO.getCat3()%>
+            </p>
+            <p><strong>주소:</strong> <%=detailDTO.getAddr1() + " " + detailDTO.getAddr2()%>
+            </p>
+            <p><strong>문의 및 안내:</strong> <%=detailDTO.getTel()%>
+            </p>
         </div>
     </div>
 
@@ -238,13 +249,13 @@
                 <%
                     for (NearByItemDTO to : nearbyTourist) {
                         String url = "/view?page=" + pageNo + "&contentId=" + to.getContentid();
-                        String imageUrl = to.getFirstimage();
-                        if (imageUrl == null || imageUrl.trim().isEmpty()) {
-                            imageUrl = "/image/sample.png";
+                        String imageUrl3 = to.getFirstimage();
+                        if (imageUrl3 == null || imageUrl3.trim().isEmpty()) {
+                            imageUrl3 = request.getContextPath() + "/images/no_image.jpg";
                         }
 
                         out.println("<div class='card' onclick=\"location.href='" + url + "'\">");
-                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl + "');\">");
+                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl3 + "');\">");
                         out.println("<div class='overlay'>관광지 상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
@@ -277,13 +288,13 @@
                 <%
                     for (NearByItemDTO to : nearbyAccom) {
                         String url = "/view?page=" + pageNo + "&contentId=" + to.getContentid();
-                        String imageUrl = to.getFirstimage();
-                        if (imageUrl == null || imageUrl.trim().isEmpty()) {
-                            imageUrl = "/image/sample.png";
+                        String imageUrl4 = to.getFirstimage();
+                        if (imageUrl4 == null || imageUrl4.trim().isEmpty()) {
+                            imageUrl4 = request.getContextPath() + "/images/no_image.jpg";
                         }
 
                         out.println("<div class='card accom-card' onclick=\"location.href='" + url + "'\">");
-                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl + "');\">");
+                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl4 + "');\">");
                         out.println("<div class='overlay'>숙소 상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
@@ -312,13 +323,13 @@
                 <%
                     for (NearByItemDTO to : nearbyFood) {
                         String url = "/view?page=" + pageNo + "&contentId=" + to.getContentid();
-                        String imageUrl = to.getFirstimage();
-                        if (imageUrl == null || imageUrl.trim().isEmpty()) {
-                            imageUrl = "/image/sample.png";
+                        String imageUrl5 = to.getFirstimage();
+                        if (imageUrl5 == null || imageUrl5.trim().isEmpty()) {
+                            imageUrl5 = request.getContextPath() + "/images/no_image.jpg";
                         }
 
                         out.println("<div class='card food-card' onclick=\"location.href='" + url + "'\">");
-                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl + "');\">");
+                        out.println("<div class='card-image' style=\"background-image: url('" + imageUrl5 + "');\">");
                         out.println("<div class='overlay'>음식점 상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
