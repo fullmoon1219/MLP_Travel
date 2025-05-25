@@ -48,6 +48,7 @@ public class DetailItemDTO {
             }
         }
 
+
         return sb.toString();
     }
 }
