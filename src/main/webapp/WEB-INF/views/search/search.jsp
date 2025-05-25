@@ -41,12 +41,17 @@
     <hr class="result-divider">
 
     <div class="result-grid">
-
         <%
-            if (lists == null || lists.isEmpty()) {
+            if (lists == null) {
         %>
         <div class="no-result">
-            검색 결과가 없습니다.
+            검색어를 입력해주세요.
+        </div>
+        <%
+        } else if (lists.isEmpty()) {
+        %>
+        <div class="no-result">
+            '<%= keyword %>'에 대한 검색 결과가 없습니다.
         </div>
         <%
         } else {
@@ -60,8 +65,10 @@
                         image = request.getContextPath() + "/images/no_image.jpg";
                     }
                 %>
-                <img src="<%= image %>" alt="이미지"/>
-                <div class="card-overlay">상세 정보 보기</div>
+                <a href="./view?page=1&contentId=<%= item.getContentid() %>">
+                    <img src="<%= image %>" alt="이미지"/>
+                    <div class="card-overlay">상세 정보 보기</div>
+                </a>
             </div>
             <div class="card-title"><%= item.getTitle() %></div>
         </div>
@@ -128,8 +135,10 @@
         %>
         <div class="recommend-item">
             <div class="recommend-card">
-                <img src="<%=item.getFirstimage()%>">
-                <div class="overlay">상세 정보 보기</div>
+                <a href="./view?page=1&contentId=<%= item.getContentid() %>">
+                    <img src="<%= item.getFirstimage() %>" alt="이미지"/>
+                    <div class="card-overlay">상세 정보 보기</div>
+                </a>
             </div>
             <div class="card-title"><%=item.getTitle()%></div>
         </div>

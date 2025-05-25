@@ -1,8 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 
 <%@ page import="org.example.travel.dto.detail.DetailItemDTO" %>
 <%@ page import="org.example.travel.dto.nearby.NearByItemDTO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <jsp:include page="/WEB-INF/views/util/header.jsp" />
 
 
@@ -10,6 +12,8 @@
     DetailItemDTO detailDTO = (DetailItemDTO) request.getAttribute("detail");
     String contentId = (String) request.getAttribute("contentId");
     String pageNo = (String) request.getAttribute("page");
+
+    Map<String, String> areaCodeMap = (Map<String, String>) request.getAttribute("region");
 
     List<NearByItemDTO> nearbyTourist = (List<NearByItemDTO>) request.getAttribute("nearbyTourist");
     List<NearByItemDTO> nearbyFood = (List<NearByItemDTO>) request.getAttribute("nearbyFood");
@@ -213,8 +217,9 @@
         </div>
         <div class="info-box">
             <h3>여행지 정보</h3>
-            <!-- 지역코드 -> 지역명 변환 코드 필요 -->
-            <p><strong>지역:</strong> <span class="tag" onclick="location.href='/regionlist'"><%="(코드수정)"%></span></p>
+            <p><strong>지역:</strong><span class="tag" onclick="location.href='/district?page=1&areaCode=<%=detailDTO.getAreacode()%>'"><%="#" + areaCodeMap.get(detailDTO.getAreacode())%></span></p>
+            <!-- 분류 -> 분류명 변환 코드 필요 -->
+            <!-- 분류: 대분류, 상세 분류: 소분류 -->
             <p><strong>분류:</strong> <%=detailDTO.getCat1()%>
             </p>
             <p><strong>상세 분류:</strong> <%=detailDTO.getCat3()%>

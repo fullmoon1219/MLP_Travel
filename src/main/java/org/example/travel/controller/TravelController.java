@@ -67,54 +67,56 @@ public class TravelController {
         return "index";
     }
 
-    @RequestMapping("search")
+    @GetMapping("/search")
     public String search(
-            @RequestParam String keyword,
+            @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "1") int page,
             Model model
     ) {
-        String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
+        model.addAttribute("keyword", keyword == null ? "" : keyword);
+        model.addAttribute("page", page);
+        model.addAttribute("activePath", "/search");
 
-        Map<String, String> params = Map.of(
-                "pageNo", String.valueOf(page),
-                "numOfRows", "6",
-                "MobileOS", "WEB",
-                "MobileApp", "AppTest",
-                "arrange", "Q",
-                "keyword", encodedKeyword,
-                "areaCode", "39",
-                "_type", "json"
-        );
-
-        SearchResponseDTO dto = touristService.fetchData(
-                "https://apis.data.go.kr/B551011/KorService2/searchKeyword2",
-                params,
-                SearchResponseDTO.class
-        );
-
-        if (dto == null || dto.getResponse() == null || dto.getResponse().getBody() == null ||
-                dto.getResponse().getBody().getItems() == null || dto.getResponse().getBody().getItems().getItem() == null) {
-
-            model.addAttribute("searchLists", Collections.emptyList());
-            model.addAttribute("keyword", keyword);
-            model.addAttribute("page", page);
+        if (keyword == null || keyword.isBlank()) {
             model.addAttribute("totalCount", 0);
             model.addAttribute("totalPage", 1);
-
         } else {
-            List<SearchItemDTO> list = dto.getResponse().getBody().getItems().getItem();
-            int totalCount = dto.getResponse().getBody().getTotalCount();
+            String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
 
-            model.addAttribute("searchLists", list);
-            model.addAttribute("keyword", keyword);
-            model.addAttribute("page", page);
-            model.addAttribute("totalCount", totalCount);
+            Map<String, String> params = Map.of(
+                    "pageNo", String.valueOf(page),
+                    "numOfRows", "6",
+                    "MobileOS", "WEB",
+                    "MobileApp", "AppTest",
+                    "arrange", "Q",
+                    "keyword", encodedKeyword,
+                    "_type", "json"
+            );
 
-            int totalPage = (int) Math.ceil((double) totalCount / 6.0);
-            model.addAttribute("totalPage", totalPage);
+            SearchResponseDTO dto = touristService.fetchData(
+                    "https://apis.data.go.kr/B551011/KorService2/searchKeyword2",
+                    params,
+                    SearchResponseDTO.class
+            );
+
+            if (dto == null || dto.getResponse() == null || dto.getResponse().getBody() == null ||
+                    dto.getResponse().getBody().getItems() == null || dto.getResponse().getBody().getItems().getItem() == null) {
+
+                model.addAttribute("searchLists", Collections.emptyList());
+                model.addAttribute("totalCount", 0);
+                model.addAttribute("totalPage", 1);
+            } else {
+                List<SearchItemDTO> list = dto.getResponse().getBody().getItems().getItem();
+                int totalCount = dto.getResponse().getBody().getTotalCount();
+                int totalPage = (int) Math.ceil((double) totalCount / 6.0);
+
+                model.addAttribute("searchLists", list);
+                model.addAttribute("totalCount", totalCount);
+                model.addAttribute("totalPage", totalPage);
+            }
         }
 
-        Map<String, String> params2 = Map.of(
+        Map<String, String> randomParams = Map.of(
                 "pageNo", "1",
                 "numOfRows", "100",
                 "MobileOS", "WEB",
@@ -126,7 +128,7 @@ public class TravelController {
 
         DistrictResponseDTO random = touristService.fetchData(
                 "https://apis.data.go.kr/B551011/KorService2/areaBasedList2",
-                params2,
+                randomParams,
                 DistrictResponseDTO.class
         );
 
@@ -136,19 +138,14 @@ public class TravelController {
 
             List<DistrictItemDTO> list2 = random.getResponse().getBody().getItems().getItem();
             Collections.shuffle(list2);
-
             int limit = Math.min(3, list2.size());
-            List<DistrictItemDTO> randomList = list2.subList(0, limit);
-
-            model.addAttribute("randomLists", randomList);
+            model.addAttribute("randomLists", list2.subList(0, limit));
         } else {
             model.addAttribute("randomLists", Collections.emptyList());
         }
 
         return "search/search";
     }
-
-
 
     @RequestMapping("/list")
     public String allList(
@@ -181,6 +178,7 @@ public class TravelController {
 
         int totalPage = (int) Math.ceil( (double)totalCount / 12.0 );
         model.addAttribute("totalPage", totalPage);
+        model.addAttribute("activePath", "/list");
 
         return "list/allList";
     }
@@ -216,6 +214,7 @@ public class TravelController {
         model.addAttribute("page", page);
         model.addAttribute("areaCode", areaCode);
         model.addAttribute("region", AreaCode.AREA_CODE_MAP);
+        model.addAttribute("activePath", "/district");
 
         int totalCount = dto.getResponse().getBody().getTotalCount();
 
@@ -258,6 +257,7 @@ public class TravelController {
         model.addAttribute("detail", detail);
         model.addAttribute("page", page);
         model.addAttribute("contentId", contentId);
+        model.addAttribute("region", AreaCode.AREA_CODE_MAP);
 
         // 2. 위도/경도 기반 관광지 및 음식점 조회
         if (detail != null && detail.getMapx() != null && detail.getMapy() != null) {
@@ -333,6 +333,7 @@ public class TravelController {
         model.addAttribute("page", page);
         model.addAttribute("areaCode", areaCode);
         model.addAttribute("region", AreaCode.AREA_CODE_MAP);
+        model.addAttribute("activePath", "/food");
 
         int totalCount = dto.getResponse().getBody().getTotalCount();
 
@@ -374,6 +375,7 @@ public class TravelController {
         model.addAttribute("page", page);
         model.addAttribute("areaCode", areaCode);
         model.addAttribute("region", AreaCode.AREA_CODE_MAP);
+        model.addAttribute("activePath", "/accom");
 
         int totalCount = dto.getResponse().getBody().getTotalCount();
 
