@@ -70,8 +70,10 @@ html, body {
     color: white;
 }
 
-/* 활성 링크용 클래스 */
 .nav-menu a.active {
-    background-color: #ff8f00;
+    background-color: #ffc107;
     color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-weight: bold;
 }

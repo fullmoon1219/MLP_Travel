@@ -34,4 +34,20 @@ public class DetailItemDTO {
     private String mapy;
     private String mlevel;
     private String overview;
+
+    public String getOverview() {
+        if (overview == null) return "";
+
+        String[] words = overview.split("\\.\\s*");
+
+        StringBuilder sb = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.trim().isEmpty()) {
+                sb.append(word.trim()).append(".<br>");
+            }
+        }
+
+        return sb.toString();
+    }
 }

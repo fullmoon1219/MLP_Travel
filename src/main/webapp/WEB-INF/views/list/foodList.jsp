@@ -94,9 +94,15 @@
             int blockSize = 5;
 
             if (currentPage > 1) {
-                out.println("<span><a href='./food?page=1&areaCode=" + selectedCode + "'>&lt;&lt;</a></span>");
                 int prev = Math.max(1, currentPage - blockSize);
-                out.println("<span><a href='./food?page=" + prev + "&areaCode=" + selectedCode + "'>&lt;</a></span>");
+
+                if (selectedCode == null || selectedCode.isEmpty()) {
+                    out.println("<span><a href='./food?page=1'>&lt;&lt;</a></span>");
+                    out.println("<span><a href='./food?page=" + prev + "'>&lt;</a></span>");
+                } else {
+                    out.println("<span><a href='./food?page=1&areaCode=" + selectedCode + "'>&lt;&lt;</a></span>");
+                    out.println("<span><a href='./food?page=" + prev + "&areaCode=" + selectedCode + "'>&lt;</a></span>");
+                }
             } else {
                 out.println("<span><a href='#'>&lt;&lt;</a></span>");
                 out.println("<span><a href='#'>&lt;</a></span>");
@@ -106,19 +112,29 @@
                 if (j == currentPage) {
                     out.println("<span><strong>" + j + "</strong></span>");
                 } else {
-                    out.println("<span><a href='./food?page=" + j + "&areaCode=" + selectedCode + "'>" + j + "</a></span>");
+                    if (selectedCode == null || selectedCode.isEmpty()) {
+                        out.println("<span><a href='./food?page=" + j + "'>" + j + "</a></span>");
+                    } else {
+                        out.println("<span><a href='./food?page=" + j + "&areaCode=" + selectedCode + "'>" + j + "</a></span>");
+                    }
                 }
             }
 
             if (currentPage < totalPage) {
                 int next = Math.min(totalPage, currentPage + blockSize);
-                out.println("<span><a href='./food?page=" + next + "&areaCode=" + selectedCode + "'>&gt;</a></span>");
-                out.println("<span><a href='./food?page=" + totalPage + "&areaCode=" + selectedCode + "'>&gt;&gt;</a></span>");
+                if (selectedCode == null || selectedCode.isEmpty()) {
+                    out.println("<span><a href='./food?page=" + next + "'>&gt;</a></span>");
+                    out.println("<span><a href='./food?page=" + totalPage + "'>&gt;&gt;</a></span>");
+                } else {
+                    out.println("<span><a href='./food?page=" + next + "&areaCode=" + selectedCode + "'>&gt;</a></span>");
+                    out.println("<span><a href='./food?page=" + totalPage + "&areaCode=" + selectedCode + "'>&gt;&gt;</a></span>");
+                }
             } else {
                 out.println("<span><a href='#'>&gt;</a></span>");
                 out.println("<span><a href='#'>&gt;&gt;</a></span>");
             }
         %>
+
     </div>
 </div>
 
