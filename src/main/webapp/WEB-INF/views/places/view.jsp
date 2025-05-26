@@ -3,6 +3,7 @@
 
 <%@ page import="org.example.travel.dto.detail.DetailItemDTO" %>
 <%@ page import="org.example.travel.dto.nearby.NearByItemDTO" %>
+<%@ page import="org.example.travel.dto.image.ImageItemDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <jsp:include page="/WEB-INF/views/util/header.jsp" />
@@ -17,6 +18,7 @@
     @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyTourist = (List<NearByItemDTO>) request.getAttribute("nearbyTourist");
     @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyFood = (List<NearByItemDTO>) request.getAttribute("nearbyFood");
     @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyAccom = (List<NearByItemDTO>) request.getAttribute("nearbyAccom");
+    @SuppressWarnings("unchecked") List<ImageItemDTO> imageList = (List<ImageItemDTO>) request.getAttribute("images");
 %>
 
 <html>
@@ -190,30 +192,60 @@
     <div class="main-content">
         <div>
             <div class="slider-wrapper">
-                <%
 
+                <%
                     String imageUrl = detailDTO.getFirstimage();
-                    if (imageUrl == null || imageUrl.trim().isEmpty()) {
-                        imageUrl = request.getContextPath() + "/images/no_image.jpg";
-                    }
+                    int imageCount = 0;
+
+                    if (imageUrl != null && !imageUrl.trim().isEmpty()) {
                 %>
                 <img class="slider-image active" src="<%=imageUrl%>" alt="이미지1">
                 <%
-                    String imageUrl2 = detailDTO.getFirstimage2();
-                    if (imageUrl2 != null && !imageUrl2.trim().isEmpty()) {
+                        if (imageList != null) {
+                            for (ImageItemDTO img : imageList) {
+                                out.println("<img class='slider-image' src='" + img.getOriginimgurl() + "' alt='이미지'>");
+                            }
+                        }
+
+                        imageCount = imageList != null ? imageList.size() + 1 : 1;
+
+                    } else if (imageList != null) {
+                        int i = 0;
+                        for (ImageItemDTO img : imageList) {
+                            if (i == 0) {
+                                out.println("<img class='slider-image active' src='" + img.getOriginimgurl() + "' alt='이미지'>");
+                            }
+                            out.println("<img class='slider-image' src='" + img.getOriginimgurl() + "' alt='이미지'>");
+                            i++;
+                        }
+
+                        imageCount = imageList.size();
+
+                    } else {
+                        imageUrl = request.getContextPath() + "/images/no_image.jpg";
+                            out.println("<img class='slider-image active' src='" + imageUrl + "' alt='이미지'>");
+                    }
+
+                    if (imageCount >= 2) {
                 %>
-                <img class="slider-image" src="<%= imageUrl2 %>" alt="이미지2">
+                <button class="slider-arrow left">&lt;</button>
+                <button class="slider-arrow right">&gt;</button>
                 <%
                     }
                 %>
 
-
-                <button class="slider-arrow left">&lt;</button>
-                <button class="slider-arrow right">&gt;</button>
-
                 <div class="slider-dots">
-                    <span class="slider-dot active"></span>
-                    <span class="slider-dot"></span>
+                    <%
+                        if (imageCount >= 2) {
+                            for (int i = 1; i <= imageCount; i++) {
+                                if (i == 1) {
+                                    out.println("<span class='slider-dot active'></span>");
+                                } else {
+                                    out.println("<span class='slider-dot'></span>");
+                                }
+                            }
+                        }
+                    %>
                 </div>
             </div>
         </div>

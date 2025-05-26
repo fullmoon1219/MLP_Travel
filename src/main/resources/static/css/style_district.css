@@ -13,12 +13,14 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    margin-top: 70px;
     margin-bottom: 10px;
 }
 
 .district-header h2 {
     font-size: 24px;
     font-weight: bold;
+    margin: 0 0 10px 0;
 }
 
 .district-count {
@@ -52,19 +54,21 @@
 }
 
 .ui-button a:hover {
-    background-color: #007BFF;
+    background-color: #ff8f00;
     color: #fff;
 }
 
 .ui-button a.selected {
-    background-color: #67aeff;
+    background-color: #ffc107;
     color: white;
     font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 
 /* 카드 목록 */
 .card-container {
+    margin-top: 30px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px;
@@ -124,4 +128,17 @@
     color: white;
     font-weight: bold;
     border: none;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    background: #f8f8f8;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-top: 100px;
 }
