@@ -16,12 +16,12 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-           $('#btnSearch').on('click', function () {
-               const valid = validateSearch();
-               if (valid) {
-                   $('#main-search-form').submit();
-               }
-           });
+            $('#btnSearch').on('click', function () {
+                const valid = validateSearch();
+                if (valid) {
+                    $('#main-search-form').submit();
+                }
+            });
         });
 
         function validateSearch() {
@@ -91,5 +91,14 @@
         %>
     </div>
 </section>
+
+<script>
+    function scrollToRecommend() {
+        const recommendSection = document.querySelector('.recommend-section');
+        if (recommendSection) {
+            recommendSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+</script>
 </body>
 </html>
