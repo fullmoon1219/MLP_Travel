@@ -4,6 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="org.example.travel.dto.food.FoodItemDTO" %>
+<%@ page import="org.example.travel.dto.district.DistrictItemDTO" %>
 <%@ include file="../util/header.jsp" %>
 
 <!DOCTYPE html>
@@ -19,7 +20,7 @@
 <body>
 <%
     @SuppressWarnings("unchecked")
-    List<FoodItemDTO> lists = (List<FoodItemDTO>) request.getAttribute("foods");
+    List<DistrictItemDTO> lists = (List<DistrictItemDTO>) request.getAttribute("foods");
 
     int currentPage = Integer.parseInt((String) request.getAttribute("page"));
     int totalCount = (Integer) request.getAttribute("totalCount");
@@ -65,7 +66,7 @@
 
         <div class='card-container'>
             <%
-                for (FoodItemDTO item : lists) {
+                for (DistrictItemDTO item : lists) {
                     String contentId = item.getContentid();
             %>
             <div class='card'>
