@@ -18,10 +18,10 @@ public class AreaCode {
     public static final String GANGWON = "32";
     public static final String CHUNGBUK = "33";
     public static final String CHUNGNAM = "34";
-    public static final String JEONBUK = "35";
-    public static final String JEONNAM = "36";
-    public static final String GYEONGBUK = "37";
-    public static final String GYEONGNAM = "38";
+    public static final String GYEONGBUK = "35";
+    public static final String GYEONGNAM = "36";
+    public static final String JEONBUK = "37";
+    public static final String JEONNAM = "38";
     public static final String JEJU = "39";
 
     private AreaCode() {}
