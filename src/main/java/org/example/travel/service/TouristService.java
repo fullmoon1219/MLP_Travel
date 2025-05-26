@@ -1,8 +1,6 @@
 package org.example.travel.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.travel.dto.tourist.TouristItemDTO;
-import org.example.travel.dto.tourist.TouristResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -11,7 +9,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Service

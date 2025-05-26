@@ -220,9 +220,9 @@
             <p><strong>지역: </strong><span class="tag" onclick="location.href='/district?page=1&areaCode=<%=detailDTO.getAreacode()%>'"><%="#" + areaCodeMap.get(detailDTO.getAreacode())%></span></p>
             <!-- 분류 -> 분류명 변환 코드 필요 -->
             <!-- 분류: 대분류, 상세 분류: 소분류 -->
-            <p><strong>분류:</strong> <%=detailDTO.getCat1()%>
-            </p>
-            <p><strong>상세 분류:</strong> <%=detailDTO.getCat3()%>
+<%--            <p><strong>분류:</strong> <%=detailDTO.getCat1()%>--%>
+<%--            </p>--%>
+<%--            <p><strong>상세 분류:</strong> <%=detailDTO.getCat3()%>--%>
             </p>
             <p><strong>주소:</strong> <%=detailDTO.getAddr1() + " " + detailDTO.getAddr2()%>
             </p>

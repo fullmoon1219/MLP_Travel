@@ -50,8 +50,4 @@ public class DetailItemDTO {
 
         return sb.toString();
     }
-
-    public String getCat1() {
-        return cat1;
-    }
 }
