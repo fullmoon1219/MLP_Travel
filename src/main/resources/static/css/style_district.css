@@ -80,6 +80,10 @@
     text-align: center;
 }
 
+.card a {
+    text-decoration: none;
+}
+
 .card:hover {
     transform: translateY(-5px);
 }
