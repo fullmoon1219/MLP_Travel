@@ -15,16 +15,29 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
     <script type="text/javascript">
+        $(document).ready(function () {
+           $('#btnSearch').on('click', function () {
+               const valid = validateSearch();
+               if (valid) {
+                   $('#main-search-form').submit();
+               }
+           });
+        });
+
         function validateSearch() {
-            const keyword = $('#keyword').val().trim();
+            const $keyword = $('#keyword');
+            const keyword = $keyword.val().trim();
+
             if (keyword === '') {
                 alert("검색어를 입력하세요.");
-                $('#keyword').focus();
+                $keyword.focus();
                 return false;
             }
+
             $('#main-search-form').attr('action', '/search');
             return true;
         }
+
     </script>
 </head>
 <body>
