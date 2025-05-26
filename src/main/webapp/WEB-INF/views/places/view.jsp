@@ -10,18 +10,20 @@
 
 <%
     DetailItemDTO detailDTO = (DetailItemDTO) request.getAttribute("detail");
-    String contentId = (String) request.getAttribute("contentId");
     String pageNo = (String) request.getAttribute("page");
 
-    Map<String, String> areaCodeMap = (Map<String, String>) request.getAttribute("region");
+    @SuppressWarnings("unchecked") Map<String, String> areaCodeMap = (Map<String, String>) request.getAttribute("region");
 
-    List<NearByItemDTO> nearbyTourist = (List<NearByItemDTO>) request.getAttribute("nearbyTourist");
-    List<NearByItemDTO> nearbyFood = (List<NearByItemDTO>) request.getAttribute("nearbyFood");
-    List<NearByItemDTO> nearbyAccom = (List<NearByItemDTO>) request.getAttribute("nearbyAccom");
+    @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyTourist = (List<NearByItemDTO>) request.getAttribute("nearbyTourist");
+    @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyFood = (List<NearByItemDTO>) request.getAttribute("nearbyFood");
+    @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyAccom = (List<NearByItemDTO>) request.getAttribute("nearbyAccom");
 %>
 
 <html>
 <head>
+    <script type="text/javascript">
+        console.log(<%=detailDTO%>)
+    </script>
     <title><%=detailDTO.getTitle()%> 상세정보</title>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
@@ -223,7 +225,7 @@
 <%--            <p><strong>분류:</strong> <%=detailDTO.getCat1()%>--%>
 <%--            </p>--%>
 <%--            <p><strong>상세 분류:</strong> <%=detailDTO.getCat3()%>--%>
-            </p>
+<%--            </p>--%>
             <p><strong>주소:</strong> <%=detailDTO.getAddr1() + " " + detailDTO.getAddr2()%>
             </p>
             <p><strong>문의 및 안내:</strong> <%=detailDTO.getTel()%>
