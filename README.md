@@ -70,9 +70,12 @@ src
 - 검색 결과  
   ![](./images/screenshots/search.png)
 
+- 지역별 페이지  
+  ![](./images/screenshots/district.png)
+
 - 상세 페이지  
   ![](./images/screenshots/detail.png)
-
+  
 ---
 
 ## ⚙️ 설정 방법
