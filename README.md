@@ -65,7 +65,7 @@ src
 ## 🌐 화면 미리보기 (예시)
 
 - 메인 페이지  
-  ![](./images/screenshots/main.png)
+  ![](./images/screenshots/index.png)
 
 - 검색 결과  
   ![](./images/screenshots/search.png)
