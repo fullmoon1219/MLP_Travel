@@ -79,9 +79,15 @@
             const totalPages = Math.ceil($cards.length / cardsPerPage);
             let currentPage = 0;
 
-            for (let i = 0; i < totalPages; i++) {
-                $('.recommend-dots').append('<span class="recommend-dot"></span>');
+            if (totalPages <= 1) {
+                $('.recommend-arrow').hide();
+                $('.recommend-dots').hide();
+            } else {
+                for (let i = 0; i < totalPages; i++) {
+                    $('.recommend-dots').append('<span class="recommend-dot"></span>');
+                }
             }
+
             const $dots2 = $('.recommend-dot');
 
             function updateCards() {
@@ -115,8 +121,13 @@
             const accomPages = Math.ceil($accomCards.length / accomPerPage);
             let accomCurrent = 0;
 
-            for (let i = 0; i < accomPages; i++) {
-                $('.accom-dots').append('<span class="accom-dot"></span>');
+            if (accomPages <= 1) {
+                $('.accom-arrow').hide();
+                $('.accom-dots').hide();
+            } else {
+                for (let i = 0; i < accomPages; i++) {
+                    $('.accom-dots').append('<span class="accom-dot"></span>');
+                }
             }
             const $accomDots = $('.accom-dot');
 
@@ -150,8 +161,13 @@
             const foodPages = Math.ceil($foodCards.length / foodPerPage);
             let foodCurrent = 0;
 
-            for (let i = 0; i < foodPages; i++) {
-                $('.food-dots').append('<span class="food-dot"></span>');
+            if (foodPages <= 1) {
+                $('.food-arrow').hide();
+                $('.food-dots').hide();
+            } else {
+                for (let i = 0; i < foodPages; i++) {
+                    $('.food-dots').append('<span class="food-dot"></span>');
+                }
             }
             const $foodDots = $('.food-dot');
 
@@ -260,7 +276,10 @@
 <%--            </p>--%>
             <p><strong>주소:</strong> <%=detailDTO.getAddr1() + " " + detailDTO.getAddr2()%>
             </p>
-            <p><strong>문의 및 안내:</strong> <%=detailDTO.getTel()%>
+            <p><strong>문의 및 안내:</strong>
+                <%= (detailDTO.getTel() != null && ! detailDTO.getTel().trim().isEmpty())
+                    ? detailDTO.getTel()
+                    : "<span>정보 없음</span>" %>
             </p>
         </div>
     </div>
@@ -295,7 +314,7 @@
 
                         out.println("<div class='card' onclick=\"location.href='" + url + "'\">");
                         out.println("<div class='card-image' style=\"background-image: url('" + imageUrl3 + "');\">");
-                        out.println("<div class='overlay'>관광지 상세보기</div>");
+                        out.println("<div class='overlay'>상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
                         out.println("</div>");
@@ -334,7 +353,7 @@
 
                         out.println("<div class='card accom-card' onclick=\"location.href='" + url + "'\">");
                         out.println("<div class='card-image' style=\"background-image: url('" + imageUrl4 + "');\">");
-                        out.println("<div class='overlay'>숙소 상세보기</div>");
+                        out.println("<div class='overlay'>상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
                         out.println("</div>");
@@ -369,7 +388,7 @@
 
                         out.println("<div class='card food-card' onclick=\"location.href='" + url + "'\">");
                         out.println("<div class='card-image' style=\"background-image: url('" + imageUrl5 + "');\">");
-                        out.println("<div class='overlay'>음식점 상세보기</div>");
+                        out.println("<div class='overlay'>상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
                         out.println("</div>");
