@@ -90,6 +90,10 @@
             }
         %>
     </div>
+    <!-- ✅ 푸터 -->
+    <footer>
+        © 2025 여행 플랫폼 프로젝트 팀
+    </footer>
 </section>
 
 <script>
