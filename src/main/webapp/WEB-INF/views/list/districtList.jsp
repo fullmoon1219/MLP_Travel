@@ -37,7 +37,7 @@
 <div class="container">
     <div class="title">
         <div class="district-header">
-            <h2>'<%=selectedName%>'지역별 관광지</h2>
+            <h2>'#<%=selectedName%>' 관광지 조회결과</h2>
             <span class="district-count">총 <%= totalCount %>건</span>
         </div>
         <hr class="district-divider">
@@ -80,6 +80,7 @@
                     %>
 
                     <img src="<%= image %>" alt="이미지"/>
+                    <div class="overlay">상세보기</div>
                     <div class='card-title'><%=item.getTitle()%></div>
                 </a>
             </div>
