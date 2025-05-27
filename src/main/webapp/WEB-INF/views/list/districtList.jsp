@@ -102,11 +102,11 @@
                 int prev = Math.max(1, currentPage - blockSize);
 
                 if (selectedCode == null || selectedCode.isEmpty()) {
-                    out.println("<span><a href='./district?page=1'>&lt;&lt;</a></span>");
-                    out.println("<span><a href='./district?page=" + prev + "'>&lt;</a></span>");
+                    out.println("<span><a href='./district?page=1' title='첫 번째 페이지로 이동합니다.'>&lt;&lt;</a></span>");
+                    out.println("<span><a href='./district?page=" + prev + "' title='" + blockSize + "페이지 앞으로 이동합니다.'>&lt;</a></span>");
                 } else {
-                    out.println("<span><a href='./district?page=1&areaCode=" + selectedCode + "'>&lt;&lt;</a></span>");
-                    out.println("<span><a href='./district?page=" + prev + "&areaCode=" + selectedCode + "'>&lt;</a></span>");
+                    out.println("<span><a href='./district?page=1&areaCode=" + selectedCode + "' title='첫 번째 페이지로 이동합니다.'>&lt;&lt;</a></span>");
+                    out.println("<span><a href='./district?page=" + prev + "&areaCode=" + selectedCode + "' title='" + blockSize + "페이지 앞으로 이동합니다.'>&lt;</a></span>");
                 }
             } else {
                 out.println("<span><a href='#'>&lt;&lt;</a></span>");
@@ -128,11 +128,11 @@
             if (currentPage < totalPage) {
                 int next = Math.min(totalPage, currentPage + blockSize);
                 if (selectedCode == null || selectedCode.isEmpty()) {
-                    out.println("<span><a href='./district?page=" + next + "'>&gt;</a></span>");
-                    out.println("<span><a href='./district?page=" + totalPage + "'>&gt;&gt;</a></span>");
+                    out.println("<span><a href='./district?page=" + next + "' title='" + blockSize + "페이지 뒤로 이동합니다.'>&gt;</a></span>");
+                    out.println("<span><a href='./district?page=" + totalPage + "' title='마지막 페이지로 이동합니다.'>&gt;&gt;</a></span>");
                 } else {
-                    out.println("<span><a href='./district?page=" + next + "&areaCode=" + selectedCode + "'>&gt;</a></span>");
-                    out.println("<span><a href='./district?page=" + totalPage + "&areaCode=" + selectedCode + "'>&gt;&gt;</a></span>");
+                    out.println("<span><a href='./district?page=" + next + "&areaCode=" + selectedCode + "' title='" + blockSize + "페이지 뒤로 이동합니다.'>&gt;</a></span>");
+                    out.println("<span><a href='./district?page=" + totalPage + "&areaCode=" + selectedCode + "' title='마지막 페이지로 이동합니다.>&gt;&gt;</a></span>");
                 }
             } else {
                 out.println("<span><a href='#'>&gt;</a></span>");
