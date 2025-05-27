@@ -67,7 +67,7 @@
                 %>
                 <a href="./view?page=1&contentId=<%= item.getContentid() %>">
                     <img src="<%= image %>" alt="이미지"/>
-                    <div class="card-overlay">상세 정보 보기</div>
+                    <div class="overlay">상세 정보 보기</div>
                 </a>
             </div>
             <div class="card-title"><%= item.getTitle() %></div>
@@ -137,7 +137,7 @@
             <div class="recommend-card">
                 <a href="./view?page=1&contentId=<%= item.getContentid() %>">
                     <img src="<%= item.getFirstimage() %>" alt="이미지"/>
-                    <div class="card-overlay">상세 정보 보기</div>
+                    <div class="overlay">상세보기</div>
                 </a>
             </div>
             <div class="card-title"><%=item.getTitle()%></div>
