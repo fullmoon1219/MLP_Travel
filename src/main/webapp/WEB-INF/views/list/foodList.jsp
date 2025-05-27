@@ -37,7 +37,7 @@
 <div class="container">
     <div class="title">
         <div class="district-header">
-            <h2>'#<%= selectedName %>' 음식점 조회결과</h2>
+            <h2><span class="highlight">#<%= selectedName %></span> 음식점 조회결과</h2>
             <span class="district-count">총 <%= totalCount %>건</span>
         </div>
         <hr class="district-divider">

@@ -28,6 +28,12 @@
     color: #666;
 }
 
+.highlight {
+    color: #ffc107; /* 노란색 */
+    font-weight: bold;
+}
+
+
 /* 구분선 */
 .district-divider {
     border: none;
