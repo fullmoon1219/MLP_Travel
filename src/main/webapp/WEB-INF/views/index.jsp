@@ -81,7 +81,8 @@
         <div class="spot">
             <a href="./view?page=1&contentId=<%= item.getContentid() %>" class="spot-link">
                 <img src="<%= item.getFirstimage() %>" alt="<%= item.getTitle() %>">
-                <div class="overlay-text">상세 내용 보기</div>
+                <div class="overlay"></div>
+                <div class="overlay-text">관광지 상세 보기</div>
             </a>
             <p><%= item.getTitle() %>
             </p>

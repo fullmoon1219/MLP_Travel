@@ -37,7 +37,7 @@
 <div class="container">
     <div class="title">
         <div class="district-header">
-            <h2>'<%= selectedName %>' 검색결과</h2>
+            <h2><span class="highlight">#<%= selectedName %></span> 음식점 조회결과</h2>
             <span class="district-count">총 <%= totalCount %>건</span>
         </div>
         <hr class="district-divider">
@@ -78,6 +78,7 @@
                         }
                     %>
                     <img src="<%= image %>" alt="이미지"/>
+                    <div class="overlay">상세보기</div>
                     <div class='card-title'><%= item.getTitle() %></div>
                 </a>
             </div>
