@@ -81,7 +81,8 @@
         <div class="spot">
             <a href="./view?page=1&contentId=<%= item.getContentid() %>" class="spot-link">
                 <img src="<%= item.getFirstimage() %>" alt="<%= item.getTitle() %>">
-                <div class="overlay-text">상세 내용 보기</div>
+                <div class="overlay"></div>
+                <div class="overlay-text">관광지 상세 보기</div>
             </a>
             <p><%= item.getTitle() %>
             </p>
@@ -90,6 +91,10 @@
             }
         %>
     </div>
+    <!-- ✅ 푸터 -->
+    <footer>
+        © 2025 여행 플랫폼 프로젝트 팀
+    </footer>
 </section>
 
 <script>

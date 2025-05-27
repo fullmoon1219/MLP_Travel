@@ -37,7 +37,7 @@
 <div class="container">
     <div class="title">
         <div class="district-header">
-            <h2>'<%= selectedName %>' 검색결과</h2>
+            <h2><span class="highlight">#<%= selectedName %></span> 음식점 조회결과</h2>
             <span class="district-count">총 <%= totalCount %>건</span>
         </div>
         <hr class="district-divider">
@@ -78,6 +78,7 @@
                         }
                     %>
                     <img src="<%= image %>" alt="이미지"/>
+                    <div class="overlay">상세보기</div>
                     <div class='card-title'><%= item.getTitle() %></div>
                 </a>
             </div>
@@ -98,11 +99,11 @@
                 int prev = Math.max(1, currentPage - blockSize);
 
                 if (selectedCode == null || selectedCode.isEmpty()) {
-                    out.println("<span><a href='./food?page=1'>&lt;&lt;</a></span>");
-                    out.println("<span><a href='./food?page=" + prev + "'>&lt;</a></span>");
+                    out.println("<span><a href='./food?page=1' title='첫 번째 페이지로 이동합니다.'>&lt;&lt;</a></span>");
+                    out.println("<span><a href='./food?page=" + prev + "' title='" + blockSize + "페이지 앞으로 이동합니다.'>&lt;</a></span>");
                 } else {
-                    out.println("<span><a href='./food?page=1&areaCode=" + selectedCode + "'>&lt;&lt;</a></span>");
-                    out.println("<span><a href='./food?page=" + prev + "&areaCode=" + selectedCode + "'>&lt;</a></span>");
+                    out.println("<span><a href='./food?page=1&areaCode=" + selectedCode + "' title='첫 번째 페이지로 이동합니다.'>&lt;&lt;</a></span>");
+                    out.println("<span><a href='./food?page=" + prev + "&areaCode=" + selectedCode + "' title='" + blockSize + "페이지 앞으로 이동합니다.'>&lt;</a></span>");
                 }
             } else {
                 out.println("<span><a href='#'>&lt;&lt;</a></span>");
@@ -124,11 +125,11 @@
             if (currentPage < totalPage) {
                 int next = Math.min(totalPage, currentPage + blockSize);
                 if (selectedCode == null || selectedCode.isEmpty()) {
-                    out.println("<span><a href='./food?page=" + next + "'>&gt;</a></span>");
-                    out.println("<span><a href='./food?page=" + totalPage + "'>&gt;&gt;</a></span>");
+                    out.println("<span><a href='./food?page=" + next + "' title='" + blockSize + "페이지 뒤로 이동합니다.'>&gt;</a></span>");
+                    out.println("<span><a href='./food?page=" + totalPage + "' title='마지막 페이지로 이동합니다.'>&gt;&gt;</a></span>");
                 } else {
-                    out.println("<span><a href='./food?page=" + next + "&areaCode=" + selectedCode + "'>&gt;</a></span>");
-                    out.println("<span><a href='./food?page=" + totalPage + "&areaCode=" + selectedCode + "'>&gt;&gt;</a></span>");
+                    out.println("<span><a href='./food?page=" + next + "&areaCode=" + selectedCode + "' title='" + blockSize + "페이지 뒤로 이동합니다.'>&gt;</a></span>");
+                    out.println("<span><a href='./food?page=" + totalPage + "&areaCode=" + selectedCode + "' title='마지막 페이지로 이동합니다.>&gt;&gt;</a></span>");
                 }
             } else {
                 out.println("<span><a href='#'>&gt;</a></span>");
@@ -138,6 +139,11 @@
 
     </div>
 </div>
+
+<!-- ✅ FOOTER -->
+<footer>
+    © 2025 여행 플랫폼 프로젝트 팀
+</footer>
 
 </body>
 </html>

@@ -7,8 +7,8 @@ import org.example.travel.dto.district.DistrictItemDTO;
 import org.example.travel.dto.district.DistrictResponseDTO;
 import org.example.travel.dto.food.FoodItemDTO;
 import org.example.travel.dto.food.FoodResponseDTO;
-import org.example.travel.dto.gallery.GalleryItemDTO;
-import org.example.travel.dto.gallery.GalleryResponseDTO;
+import org.example.travel.dto.image.ImageItemDTO;
+import org.example.travel.dto.image.ImageResponseDTO;
 import org.example.travel.dto.nearby.NearByItemDTO;
 import org.example.travel.dto.nearby.NearByResponseDTO;
 import org.example.travel.dto.search.SearchItemDTO;
@@ -182,30 +182,34 @@ public class TravelController {
         model.addAttribute("contentId", contentId);
         model.addAttribute("region", AreaCode.AREA_CODE_MAP);
 
-//        Map<String, String> detailParams2 = Map.of(
-//                "keyword", detail.getTitle(),
-//                "MobileOS", "WEB",
-//                "MobileApp", "AppTest"
-//        );
-//
-//        GalleryResponseDTO galleryDto = touristService.fetchData(
-//                "https://apis.data.go.kr/B551011/PhotoGalleryService1/gallerySearchList1",
-//                detailParams2,
-//                GalleryResponseDTO.class
-//        );
-//
-//        List<GalleryItemDTO> galleryList = null;
-//
-//        if (galleryDto != null && galleryDto.getResponse() != null &&
-//                galleryDto.getResponse().getBody() != null &&
-//                galleryDto.getResponse().getBody().getItems() != null &&
-//                galleryDto.getResponse().getBody().getItems().getItem() != null &&
-//                !galleryDto.getResponse().getBody().getItems().getItem().isEmpty()) {
-//
-//            galleryList = galleryDto.getResponse().getBody().getItems().getItem();
-//        }
-//
-//        model.addAttribute("galleryList", galleryList);
+        Map<String, String> imgParams = Map.of(
+                "contentId", contentId,
+                "imageYN", "Y",
+                "MobileOS", "WEB",
+                "MobileApp", "AppTest",
+                "pageNo", "1",
+                "numOfRows", "5"
+        );
+
+        ImageResponseDTO imageDto = touristService.fetchData(
+                "https://apis.data.go.kr/B551011/KorService2/detailImage2",
+                imgParams,
+                ImageResponseDTO.class
+        );
+
+        List<ImageItemDTO> images = null;
+
+        if (imageDto != null && imageDto.getResponse() != null &&
+                imageDto.getResponse().getBody() != null &&
+                imageDto.getResponse().getBody().getItems() != null &&
+                imageDto.getResponse().getBody().getItems().getItem() != null &&
+                !imageDto.getResponse().getBody().getItems().getItem().isEmpty()) {
+
+            images = imageDto.getResponse().getBody().getItems().getItem();
+        }
+
+        model.addAttribute("images", images);
+
 
         // 2. 위도/경도 기반 관광지 및 음식점 조회
         if (detail != null && detail.getMapx() != null && detail.getMapy() != null) {

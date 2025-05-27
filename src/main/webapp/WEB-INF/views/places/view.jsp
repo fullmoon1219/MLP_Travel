@@ -3,6 +3,7 @@
 
 <%@ page import="org.example.travel.dto.detail.DetailItemDTO" %>
 <%@ page import="org.example.travel.dto.nearby.NearByItemDTO" %>
+<%@ page import="org.example.travel.dto.image.ImageItemDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <jsp:include page="/WEB-INF/views/util/header.jsp" />
@@ -17,6 +18,7 @@
     @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyTourist = (List<NearByItemDTO>) request.getAttribute("nearbyTourist");
     @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyFood = (List<NearByItemDTO>) request.getAttribute("nearbyFood");
     @SuppressWarnings("unchecked") List<NearByItemDTO> nearbyAccom = (List<NearByItemDTO>) request.getAttribute("nearbyAccom");
+    @SuppressWarnings("unchecked") List<ImageItemDTO> imageList = (List<ImageItemDTO>) request.getAttribute("images");
 %>
 
 <html>
@@ -77,9 +79,15 @@
             const totalPages = Math.ceil($cards.length / cardsPerPage);
             let currentPage = 0;
 
-            for (let i = 0; i < totalPages; i++) {
-                $('.recommend-dots').append('<span class="recommend-dot"></span>');
+            if (totalPages <= 1) {
+                $('.recommend-arrow').hide();
+                $('.recommend-dots').hide();
+            } else {
+                for (let i = 0; i < totalPages; i++) {
+                    $('.recommend-dots').append('<span class="recommend-dot"></span>');
+                }
             }
+
             const $dots2 = $('.recommend-dot');
 
             function updateCards() {
@@ -113,8 +121,13 @@
             const accomPages = Math.ceil($accomCards.length / accomPerPage);
             let accomCurrent = 0;
 
-            for (let i = 0; i < accomPages; i++) {
-                $('.accom-dots').append('<span class="accom-dot"></span>');
+            if (accomPages <= 1) {
+                $('.accom-arrow').hide();
+                $('.accom-dots').hide();
+            } else {
+                for (let i = 0; i < accomPages; i++) {
+                    $('.accom-dots').append('<span class="accom-dot"></span>');
+                }
             }
             const $accomDots = $('.accom-dot');
 
@@ -148,8 +161,13 @@
             const foodPages = Math.ceil($foodCards.length / foodPerPage);
             let foodCurrent = 0;
 
-            for (let i = 0; i < foodPages; i++) {
-                $('.food-dots').append('<span class="food-dot"></span>');
+            if (foodPages <= 1) {
+                $('.food-arrow').hide();
+                $('.food-dots').hide();
+            } else {
+                for (let i = 0; i < foodPages; i++) {
+                    $('.food-dots').append('<span class="food-dot"></span>');
+                }
             }
             const $foodDots = $('.food-dot');
 
@@ -190,30 +208,60 @@
     <div class="main-content">
         <div>
             <div class="slider-wrapper">
-                <%
 
+                <%
                     String imageUrl = detailDTO.getFirstimage();
-                    if (imageUrl == null || imageUrl.trim().isEmpty()) {
-                        imageUrl = request.getContextPath() + "/images/no_image.jpg";
-                    }
+                    int imageCount = 0;
+
+                    if (imageUrl != null && !imageUrl.trim().isEmpty()) {
                 %>
                 <img class="slider-image active" src="<%=imageUrl%>" alt="이미지1">
                 <%
-                    String imageUrl2 = detailDTO.getFirstimage2();
-                    if (imageUrl2 != null && !imageUrl2.trim().isEmpty()) {
+                        if (imageList != null) {
+                            for (ImageItemDTO img : imageList) {
+                                out.println("<img class='slider-image' src='" + img.getOriginimgurl() + "' alt='이미지'>");
+                            }
+                        }
+
+                        imageCount = imageList != null ? imageList.size() + 1 : 1;
+
+                    } else if (imageList != null) {
+                        int i = 0;
+                        for (ImageItemDTO img : imageList) {
+                            if (i == 0) {
+                                out.println("<img class='slider-image active' src='" + img.getOriginimgurl() + "' alt='이미지'>");
+                            }
+                            out.println("<img class='slider-image' src='" + img.getOriginimgurl() + "' alt='이미지'>");
+                            i++;
+                        }
+
+                        imageCount = imageList.size();
+
+                    } else {
+                        imageUrl = request.getContextPath() + "/images/no_image.jpg";
+                            out.println("<img class='slider-image active' src='" + imageUrl + "' alt='이미지'>");
+                    }
+
+                    if (imageCount >= 2) {
                 %>
-                <img class="slider-image" src="<%= imageUrl2 %>" alt="이미지2">
+                <button class="slider-arrow left">&lt;</button>
+                <button class="slider-arrow right">&gt;</button>
                 <%
                     }
                 %>
 
-
-                <button class="slider-arrow left">&lt;</button>
-                <button class="slider-arrow right">&gt;</button>
-
                 <div class="slider-dots">
-                    <span class="slider-dot active"></span>
-                    <span class="slider-dot"></span>
+                    <%
+                        if (imageCount >= 2) {
+                            for (int i = 1; i <= imageCount; i++) {
+                                if (i == 1) {
+                                    out.println("<span class='slider-dot active'></span>");
+                                } else {
+                                    out.println("<span class='slider-dot'></span>");
+                                }
+                            }
+                        }
+                    %>
                 </div>
             </div>
         </div>
@@ -228,7 +276,10 @@
 <%--            </p>--%>
             <p><strong>주소:</strong> <%=detailDTO.getAddr1() + " " + detailDTO.getAddr2()%>
             </p>
-            <p><strong>문의 및 안내:</strong> <%=detailDTO.getTel()%>
+            <p><strong>문의 및 안내:</strong>
+                <%= (detailDTO.getTel() != null && ! detailDTO.getTel().trim().isEmpty())
+                    ? detailDTO.getTel()
+                    : "<span>정보 없음</span>" %>
             </p>
         </div>
     </div>
@@ -263,7 +314,7 @@
 
                         out.println("<div class='card' onclick=\"location.href='" + url + "'\">");
                         out.println("<div class='card-image' style=\"background-image: url('" + imageUrl3 + "');\">");
-                        out.println("<div class='overlay'>관광지 상세보기</div>");
+                        out.println("<div class='overlay'>상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
                         out.println("</div>");
@@ -302,7 +353,7 @@
 
                         out.println("<div class='card accom-card' onclick=\"location.href='" + url + "'\">");
                         out.println("<div class='card-image' style=\"background-image: url('" + imageUrl4 + "');\">");
-                        out.println("<div class='overlay'>숙소 상세보기</div>");
+                        out.println("<div class='overlay'>상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
                         out.println("</div>");
@@ -337,7 +388,7 @@
 
                         out.println("<div class='card food-card' onclick=\"location.href='" + url + "'\">");
                         out.println("<div class='card-image' style=\"background-image: url('" + imageUrl5 + "');\">");
-                        out.println("<div class='overlay'>음식점 상세보기</div>");
+                        out.println("<div class='overlay'>상세보기</div>");
                         out.println("</div>");
                         out.println("<div class='label'>" + to.getTitle() + "</div>");
                         out.println("</div>");
