@@ -12,9 +12,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
 </head>
+
 <body>
+<%
+    @SuppressWarnings("unchecked")
+    List<SearchItemDTO> lists = (List<SearchItemDTO>) request.getAttribute("searchLists");
+
+    String keyword = (String) request.getAttribute("keyword");
+
+    int totalCount = (Integer) request.getAttribute("totalCount");
+%>
+
 <div class="header-spacer"></div>
-<!-- ✅ 검색 영역 -->
+ <!-- ✅ 검색 영역 -->
 <div class="search-combined">
     <form action="./search" method="get">
         <div class="search-wrapper">
@@ -24,14 +34,7 @@
         </div>
     </form>
 </div>
-<%
-    @SuppressWarnings("unchecked")
-    List<SearchItemDTO> lists = (List<SearchItemDTO>) request.getAttribute("searchLists");
 
-    String keyword = (String) request.getAttribute("keyword");
-
-    int totalCount = (Integer) request.getAttribute("totalCount");
-%>
 <!-- ✅ 검색 결과 -->
 <section class="result-area">
     <div class="result-header">
@@ -59,18 +62,21 @@
         %>
         <div class="result-item">
             <div class="result-card">
+                <a href="./view?page=1&contentId=<%= item.getContentid() %>">
                 <%
                     String image = item.getFirstimage();
                     if (image == null || image.isBlank()) {
                         image = request.getContextPath() + "/images/no_image.jpg";
                     }
                 %>
-                <a href="./view?page=1&contentId=<%= item.getContentid() %>">
+
                     <img src="<%= image %>" alt="이미지"/>
-                    <div class="overlay">상세 정보 보기</div>
+                    <div class="card-overlay">상세보기</div>
+
                 </a>
+                <div class="card-title"><%= item.getTitle() %></div>
             </div>
-            <div class="card-title"><%= item.getTitle() %></div>
+
         </div>
         <%
                 }
@@ -119,6 +125,7 @@
             }
         %>
     </div>
+
 </section>
 
 <!-- ✅ 추천 관광지 -->
@@ -140,7 +147,7 @@
                     <div class="overlay">상세보기</div>
                 </a>
             </div>
-            <div class="card-title"><%=item.getTitle()%></div>
+            <div class="card-title" style="padding: 12px; font-size: 15px; font-weight: 500; color: #333;" ><%=item.getTitle()%></div>
         </div>
 
         <%
