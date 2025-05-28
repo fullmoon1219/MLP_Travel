@@ -12,9 +12,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
 </head>
+
 <body>
+<%
+    @SuppressWarnings("unchecked")
+    List<SearchItemDTO> lists = (List<SearchItemDTO>) request.getAttribute("searchLists");
+
+    String keyword = (String) request.getAttribute("keyword");
+
+    int totalCount = (Integer) request.getAttribute("totalCount");
+%>
+
 <div class="header-spacer"></div>
-<!-- ✅ 검색 영역 -->
+ <!-- ✅ 검색 영역 -->
 <div class="search-combined">
     <form action="./search" method="get">
         <div class="search-wrapper">
@@ -24,14 +34,7 @@
         </div>
     </form>
 </div>
-<%
-    @SuppressWarnings("unchecked")
-    List<SearchItemDTO> lists = (List<SearchItemDTO>) request.getAttribute("searchLists");
 
-    String keyword = (String) request.getAttribute("keyword");
-
-    int totalCount = (Integer) request.getAttribute("totalCount");
-%>
 <!-- ✅ 검색 결과 -->
 <section class="result-area">
     <div class="result-header">
@@ -59,18 +62,21 @@
         %>
         <div class="result-item">
             <div class="result-card">
+                <a href="./view?page=1&contentId=<%= item.getContentid() %>">
                 <%
                     String image = item.getFirstimage();
                     if (image == null || image.isBlank()) {
                         image = request.getContextPath() + "/images/no_image.jpg";
                     }
                 %>
-                <a href="./view?page=1&contentId=<%= item.getContentid() %>">
+
                     <img src="<%= image %>" alt="이미지"/>
-                    <div class="card-overlay">상세 정보 보기</div>
+                    <div class="card-overlay">상세보기</div>
+
                 </a>
+                <div class="card-title"><%= item.getTitle() %></div>
             </div>
-            <div class="card-title"><%= item.getTitle() %></div>
+
         </div>
         <%
                 }
@@ -91,7 +97,7 @@
             int blockSize = 5;
 
             if (currentPage > 1) {
-                out.println("<span><a href='./search?page=1&keyword=" + keyword + "'>&lt;&lt;</a></span>");
+                out.println("<span><a href='./search?page=1&keyword=" + keyword + "' title='첫 페이지로 이동'>&lt;&lt;</a></span>");
 
                 int prev = Math.max(1, currentPage - blockSize);
                 out.println("<span><a href='./search?page=" + prev + "&keyword=" + keyword + "'>&lt;</a></span>");
@@ -110,15 +116,16 @@
 
             if (currentPage < totalPage) {
                 int next = Math.min(totalPage, currentPage + blockSize);
-                out.println("<span><a href='./search?page=" + next + "&keyword=" + keyword +  "'>&gt;</a></span>");
+                out.println("<span><a href='./search?page=" + next + "&keyword=" + keyword + "' title='" + blockSize + "페이지 뒤로 이동'>&gt;</a></span>");
+                out.println("<span><a href='./search?page=" + totalPage + "&keyword=" + keyword + "' title='마지막 페이지로 이동'>&gt;&gt;</a></span>");
 
-                out.println("<span><a href='./search?page=" + totalPage + "&keyword=" + keyword +  "'>&gt;&gt;</a></span>");
             } else {
-                out.println("<span><a href='#'>&gt;</a></span>");
-                out.println("<span><a href='#'>&gt;&gt;</a></span>");
+                out.println("<span><a href='#' title='첫 페이지입니다'>&lt;&lt;</a></span>");
+                out.println("<span><a href='#' title='이전 페이지 없음'>&lt;</a></span>");
             }
         %>
     </div>
+
 </section>
 
 <!-- ✅ 추천 관광지 -->
@@ -137,10 +144,10 @@
             <div class="recommend-card">
                 <a href="./view?page=1&contentId=<%= item.getContentid() %>">
                     <img src="<%= item.getFirstimage() %>" alt="이미지"/>
-                    <div class="card-overlay">상세 정보 보기</div>
+                    <div class="overlay">상세보기</div>
                 </a>
             </div>
-            <div class="card-title"><%=item.getTitle()%></div>
+            <div class="card-title" style="padding: 12px; font-size: 15px; font-weight: 500; color: #333;" ><%=item.getTitle()%></div>
         </div>
 
         <%
@@ -151,7 +158,7 @@
 
 <!-- ✅ FOOTER -->
 <footer>
-    © 2025 여행 플랫폼 프로젝트 팀
+    © MLP 백엔드 과정 Team. Web IT Ting! (3팀)
 </footer>
 
 </body>

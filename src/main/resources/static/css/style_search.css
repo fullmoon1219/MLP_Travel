@@ -1,11 +1,10 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #ffffff;
     margin: 0;
+    padding: 0;
+    width: 100%;
 }
 
-
-/* ---------- HEADER: 상단 헤더 영역 ---------- */
+    /* ---------- HEADER: 상단 헤더 영역 ---------- */
 header {
     background-color: #ffffff;
     padding: 15px 30px;
@@ -17,10 +16,10 @@ header {
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
 .header-spacer {
     height: 60px; /* header height + 여유 */
 }
-
 
 .logo {
     font-size: 24px;
@@ -135,14 +134,11 @@ header {
 }
 
 .result-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 30px;
     justify-content: center;
-    gap: 40px 60px;
-    margin-top: 20px;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 0 10px;
 }
 
 .result-item {
@@ -152,37 +148,35 @@ header {
 }
 
 .result-card {
-    width: 280px;
-    height: 180px;
-    position: relative;
-    border-radius: 12px;
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     transition: transform 0.2s;
+    text-align: center;
+    position: relative;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
 }
 
 .result-card img {
     width: 100%;
-    height: 100%;
+    height: 180px;
     object-fit: cover;
     display: block;
 }
 
-.result-card:hover {
-    transform: translateY(-4px);
-}
-
-.result-card:hover img {
-    filter: brightness(60%);
-}
-
-.card-overlay {
+.result-card .card-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    height: 180px;
+    background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     font-size: 16px;
     font-weight: bold;
@@ -191,17 +185,23 @@ header {
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    z-index: 1;
 }
 
 .result-card:hover .card-overlay {
     opacity: 1;
 }
 
-.card-title {
-    margin-top: 12px;
+.result-card .card-title {
+    padding: 12px;
     font-size: 15px;
+    font-weight: 500;
     color: #333;
-    text-align: center;
+}
+
+/* 링크 밑줄 제거 */
+.result-card a {
+    text-decoration: none;
 }
 
 .no-result {
@@ -264,32 +264,32 @@ header {
 
 .recommend-grid {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 36px;
-    margin-top: 30px;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 .recommend-item {
     text-align: center;
+    margin-top: 30px;
 }
 
 .recommend-card {
-    width: 260px;
-    height: 160px;
-    position: relative;
+    background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     transition: transform 0.2s;
+    text-align: center;
+    position: relative; /* ⬅ overlay 위치 위해 추가 */
 }
 
 .recommend-card img {
     width: 100%;
-    height: 100%;
+    height: 180px;
     object-fit: cover;
-    display: block;
-    transition: opacity 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .recommend-card:hover img {
@@ -301,17 +301,17 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(33, 33, 33, 0.6);
-    color: white;
+    height: 180px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
     opacity: 0;
     transition: opacity 0.3s ease;
-    border-radius: 10px;
+    z-index: 1;
 }
 
 .recommend-card:hover .overlay {
@@ -321,9 +321,6 @@ header {
 .recommend-card:hover {
     transform: translateY(-4px);
 }
-
-
-
 
 /* ---------- FOOTER ---------- */
 footer {

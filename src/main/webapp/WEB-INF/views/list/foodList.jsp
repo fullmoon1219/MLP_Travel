@@ -106,8 +106,8 @@
                     out.println("<span><a href='./food?page=" + prev + "&areaCode=" + selectedCode + "' title='" + blockSize + "페이지 앞으로 이동합니다.'>&lt;</a></span>");
                 }
             } else {
-                out.println("<span><a href='#'>&lt;&lt;</a></span>");
-                out.println("<span><a href='#'>&lt;</a></span>");
+                out.println("<span><a href='#' title='첫 번째 페이지로 이동합니다.'>&lt;&lt;</a></span>");
+                out.println("<span><a href='#' title='" + blockSize + "페이지 앞으로 이동합니다.'>&lt;</a></span>");
             }
 
             for (int j = startPage; j <= endPage; j++) {
@@ -132,8 +132,8 @@
                     out.println("<span><a href='./food?page=" + totalPage + "&areaCode=" + selectedCode + "' title='마지막 페이지로 이동합니다.>&gt;&gt;</a></span>");
                 }
             } else {
-                out.println("<span><a href='#'>&gt;</a></span>");
-                out.println("<span><a href='#'>&gt;&gt;</a></span>");
+                out.println("<span><a href='#' title='" + blockSize + "페이지 뒤로 이동합니다.'>&gt;</a></span>");
+                out.println("<span><a href='#' title='마지막 페이지로 이동합니다.'>&gt;&gt;</a></span>");
             }
         %>
 
@@ -142,7 +142,7 @@
 
 <!-- ✅ FOOTER -->
 <footer>
-    © 2025 여행 플랫폼 프로젝트 팀
+    © MLP 백엔드 과정 Team. Web IT Ting! (3팀)
 </footer>
 
 </body>
