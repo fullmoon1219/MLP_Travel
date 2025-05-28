@@ -158,7 +158,7 @@
 
 <!-- ✅ FOOTER -->
 <footer>
-    © 2025 여행 플랫폼 프로젝트 팀
+    © MLP 백엔드 과정 Team. Web IT Ting! (3팀)
 </footer>
 
 </body>
