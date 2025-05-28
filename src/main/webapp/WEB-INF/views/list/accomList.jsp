@@ -142,7 +142,7 @@
 
 <!-- ✅ FOOTER -->
 <footer>
-    MLP 백엔드 과정 Team. Web IT Ting! (3팀)
+    © MLP 백엔드 과정 Team. Web IT Ting! (3팀)
 </footer>
 
 </body>
