@@ -8,10 +8,9 @@
 
 ## 🛠 기술 스택
 
-- **Backend**: Spring Boot, Spring MVC, JDBC
+- **Backend**: Spring Boot, Spring MVC
 - **Frontend**: JSP, HTML, CSS, JavaScript (jQuery)
-- **DBMS**: MySQL
-- **Template Engine**: JSP (JSTL 사용 안 함)
+- **Template Engine**: JSP
 - **API 활용**:
   - 공공데이터포털 `TourAPI` (한국관광공사)
   - Kakao Map API
@@ -28,10 +27,8 @@ src
     │       ├── config             # RestTemplate 설정
     │       ├── constant           # 지역코드 상수
     │       ├── controller         # 요청 처리 컨트롤러
-    │       ├── dao                # DB 연동 DAO
     │       ├── dto                # 공공데이터 응답 DTO
     │       ├── service            # 외부 API 호출 및 비즈니스 로직
-    │       └── vo                 # DB 연동용 VO 객체
     ├── resources
     │   └── application.yml        # DB 및 API 설정
     └── webapp
@@ -65,16 +62,19 @@ src
 ## 🌐 화면 미리보기 (예시)
 
 - 메인 페이지  
-  ![](./images/screenshots/index.png)
+  ![](./images/gif/main.gif)
 
 - 검색 결과  
-  ![](./images/screenshots/search.png)
+  ![](./images/gif/search.gif)
 
 - 지역별 페이지  
-  ![](./images/screenshots/district.png)
+  ![](./images/gif/list.gif)
 
 - 상세 페이지  
-  ![](./images/screenshots/detail.png)
+  ![](./images/gif/main_list.gif)
+  
+- 카카오맵 API 
+  ![](./images/gif/kakaomap.gif)
   
 ---
 
@@ -86,12 +86,6 @@ src
 spring:
   application:
     name: "Travel"
-
-  datasource:
-    driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://localhost:3306/travel_db"
-    username: "traveluser"
-    password: "[PASSWORD]"
 
   mvc:
     view:
@@ -107,21 +101,6 @@ server:
 ```
 
 > 실제 사용 시 개인 API 키로 교체
-
----
-
-### 2. MySQL 테이블 예시
-
-```sql
-CREATE TABLE travel (
-    no INT PRIMARY KEY AUTO_INCREMENT,
-    district VARCHAR(100),
-    title VARCHAR(200),
-    description TEXT,
-    address VARCHAR(300),
-    phone VARCHAR(50)
-);
-```
 
 ---
 
