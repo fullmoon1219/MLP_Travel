@@ -132,7 +132,7 @@
                     out.println("<span><a href='./district?page=" + totalPage + "' title='마지막 페이지로 이동합니다.'>&gt;&gt;</a></span>");
                 } else {
                     out.println("<span><a href='./district?page=" + next + "&areaCode=" + selectedCode + "' title='" + blockSize + "페이지 뒤로 이동합니다.'>&gt;</a></span>");
-                    out.println("<span><a href='./district?page=" + totalPage + "&areaCode=" + selectedCode + "' title='마지막 페이지로 이동합니다.>&gt;&gt;</a></span>");
+                    out.println("<span><a href='./district?page=" + totalPage + "&areaCode=" + selectedCode + "' title='마지막 페이지로 이동합니다.'>&gt;&gt;</a></span>");
                 }
             } else {
                 out.println("<span><a href='#' title='" + blockSize + "페이지 뒤로 이동합니다.'>&gt;</a></span>");
