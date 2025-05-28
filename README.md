@@ -28,7 +28,7 @@ src
     │       ├── constant           # 지역코드 상수
     │       ├── controller         # 요청 처리 컨트롤러
     │       ├── dto                # 공공데이터 응답 DTO
-    │       ├── service            # 외부 API 호출 및 비즈니스 로직
+    │       └── service            # 외부 API 호출 및 비즈니스 로직
     ├── resources
     │   └── application.yml        # DB 및 API 설정
     └── webapp
