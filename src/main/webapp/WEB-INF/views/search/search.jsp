@@ -97,31 +97,29 @@
             int blockSize = 5;
 
             if (currentPage > 1) {
-                out.println("<span><a href='./search?page=1&keyword=" + keyword + "' title='첫 페이지로 이동'>&lt;&lt;</a></span>");
-
+                out.println("<span><a href='./search?page=1&keyword=" + keyword + "' title='첫 번째 페이지로 이동합니다'>&lt;&lt;</a></span>");
                 int prev = Math.max(1, currentPage - blockSize);
-                out.println("<span><a href='./search?page=" + prev + "&keyword=" + keyword + "'>&lt;</a></span>");
+                out.println("<span><a href='./search?page=" + prev + "&keyword=" + keyword + "' title='" + blockSize + "페이지 앞으로 이동합니다.'>&lt;</a></span>");
             } else {
-                out.println("<span><a href='#'>&lt;&lt;</a></span>");
-                out.println("<span><a href='#'>&lt;</a></span>");
+                out.println("<span><a href='#' title='첫 번째 페이지입니다'>&lt;&lt;</a></span>");
+                out.println("<span><a href='#' title='이전 페이지가 없습니다'>&lt;</a></span>");
             }
 
             for (int i = startPage; i <= endPage; i++) {
                 if (i == currentPage) {
-                    out.println("<span><strong>" + i + "</strong></span>");
+                    out.println("<span><strong title='현재 페이지'>" + i + "</strong></span>");
                 } else {
-                    out.println("<span><a href='./search?page=" + i + "&keyword=" + keyword +  "'>" + i + "</a></span>");
+                    out.println("<span><a href='./search?page=" + i + "&keyword=" + keyword + "' title='" + i + "페이지로 이동합니다'>" + i + "</a></span>");
                 }
             }
 
             if (currentPage < totalPage) {
                 int next = Math.min(totalPage, currentPage + blockSize);
-                out.println("<span><a href='./search?page=" + next + "&keyword=" + keyword + "' title='" + blockSize + "페이지 뒤로 이동'>&gt;</a></span>");
-                out.println("<span><a href='./search?page=" + totalPage + "&keyword=" + keyword + "' title='마지막 페이지로 이동'>&gt;&gt;</a></span>");
-
+                out.println("<span><a href='./search?page=" + next + "&keyword=" + keyword + "' title='" + blockSize + "페이지 뒤로 이동합니다.'>&gt;</a></span>");
+                out.println("<span><a href='./search?page=" + totalPage + "&keyword=" + keyword + "' title='마지막 페이지로 이동합니다.'>&gt;&gt;</a></span>");
             } else {
-                out.println("<span><a href='#' title='첫 페이지입니다'>&lt;&lt;</a></span>");
-                out.println("<span><a href='#' title='이전 페이지 없음'>&lt;</a></span>");
+                out.println("<span><a href='#' title='마지막 페이지입니다'>&gt;</a></span>");
+                out.println("<span><a href='#' title='마지막 페이지입니다'>&gt;&gt;</a></span>");
             }
         %>
     </div>
